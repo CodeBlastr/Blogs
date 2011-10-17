@@ -9,7 +9,7 @@
 	</div>
 </div>
 <?php 
-$menu->setValue(array(
+$this->Menu->setValue(array(
 	array(
 		'heading' => 'Blog',
 		'items' => array(

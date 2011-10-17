@@ -34,7 +34,7 @@ foreach ($blogs as $blog):
 </div>
 <?php echo $this->element('paging'); ?>
 <?php
-	$menu->setValue(
+	$this->Menu->setValue(
 		array(
 			  array('heading' => 'Blogs',
 					'items' => array(
