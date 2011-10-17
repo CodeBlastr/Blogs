@@ -2,10 +2,10 @@
 class BlogsController extends BlogsAppController {
 	
 	function view($id=null) {
-		if (!empty($this->params['named']['user'])) {
+		if (!empty($this->request->params['named']['user'])) {
 			$blog = $this->Blog->find('first',array(
 				'conditions' => array(
-					'Blog.user_id' => $this->params['named']['user']
+					'Blog.user_id' => $this->request->params['named']['user']
 				)
 			));
 			$this->redirect(array($blog['Blog']['id']));

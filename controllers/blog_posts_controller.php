@@ -52,8 +52,8 @@ class BlogPostsController extends BlogsAppController {
 	}
 	
 	function add() {
-		if(isset($this->params['named']['blog_id'])) {
-			$blogId = $this->params['named']['blog_id'];
+		if(isset($this->request->params['named']['blog_id'])) {
+			$blogId = $this->request->params['named']['blog_id'];
 		} else if(isset($this->data['BlogPost']['blog_id'])) {
 			$blogId = $this->data['BlogPost']['blog_id'];
 		}
@@ -125,14 +125,14 @@ class BlogPostsController extends BlogsAppController {
 	function latest() {
 		#$this->Project = ClassRegistry::init('Projects.Project'); #TODO: why is this necessary here?
 		
-		if(isset($this->params['named']['blog_id']) && isset($this->params['named']['limit'])) {
+		if(isset($this->request->params['named']['blog_id']) && isset($this->request->params['named']['limit'])) {
 
 			  $options = array(
 			  	'conditions' => array(
-					'BlogPost.blog_id' => $this->params['named']['blog_id']
+					'BlogPost.blog_id' => $this->request->params['named']['blog_id']
 				),
 				'order' => 'created DESC',
-				'limit' => $this->params['named']['limit']
+				'limit' => $this->request->params['named']['limit']
 			  );
 
 			  return $this->BlogPost->find('all', $options);
