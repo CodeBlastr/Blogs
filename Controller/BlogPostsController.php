@@ -14,7 +14,7 @@ class BlogPostsController extends BlogsAppController {
 	 */
 	function view($id=null) {
 		# temporary recaptcha placement
-		if (!empty($this->data)) {
+		if (!empty($this->request->data)) {
 			if ($this->Recaptcha->verify()) {
 		        // do something, save you data, login, whatever
 		    } else {
@@ -54,8 +54,8 @@ class BlogPostsController extends BlogsAppController {
 	function add() {
 		if(isset($this->request->params['named']['blog_id'])) {
 			$blogId = $this->request->params['named']['blog_id'];
-		} else if(isset($this->data['BlogPost']['blog_id'])) {
-			$blogId = $this->data['BlogPost']['blog_id'];
+		} else if(isset($this->request->data['BlogPost']['blog_id'])) {
+			$blogId = $this->request->data['BlogPost']['blog_id'];
 		}
   			
 		if(isset($blogId)) {
@@ -66,8 +66,8 @@ class BlogPostsController extends BlogsAppController {
 		   	));
 			if(isset($blog['Blog'])) {
 				if($this->Session->read('Auth.User.id') == $blog['Blog']['creator_id']) {
-					if(!empty($this->data)) {
-						if($this->BlogPost->save($this->data)) {
+					if(!empty($this->request->data)) {
+						if($this->BlogPost->save($this->request->data)) {
 			   				$this->Session->setFlash('Blog Post Saved');
 							$this->redirect('/blogs/blog_posts/view/' . $this->BlogPost->id);
 						} else {
@@ -91,11 +91,11 @@ class BlogPostsController extends BlogsAppController {
 	
 	function edit($id = null) {
 		
-		if(isset($this->data['BlogPost']['id'])) $id = $this->data['BlogPost']['id'];
+		if(isset($this->request->data['BlogPost']['id'])) $id = $this->request->data['BlogPost']['id'];
 
 		if(isset($id)) {
-			if(!empty($this->data)) {
-				if($this->BlogPost->save($this->data)) {
+			if(!empty($this->request->data)) {
+				if($this->BlogPost->save($this->request->data)) {
 					$this->Session->setFlash('Blog Post Saved');
 					$this->redirect('/blogs/blog_posts/view/' . $this->BlogPost->id);
 				} else {

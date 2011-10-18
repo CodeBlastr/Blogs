@@ -58,8 +58,8 @@ class BlogsController extends BlogsAppController {
 	}
 
 	function add() {
-		if (!empty($this->data)) {
-			if ($this->Blog->save($this->data)) {
+		if (!empty($this->request->data)) {
+			if ($this->Blog->save($this->request->data)) {
 				$this->redirect(array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'view', $this->Blog->id));
 			}
 		}
