@@ -1,4 +1,4 @@
-<h2><?php __('Create a Post'); ?></h2>
+<h2><?php echo __('Create a Post'); ?></h2>
 <div id="blogPosts-add" class="blogPosts add">
 	<?php
 	echo $this->Form->create('BlogPost');

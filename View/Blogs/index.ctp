@@ -1,5 +1,5 @@
 <div class="blogs index">
-<h2><?php __('Blogs');?></h2>
+<h2><?php echo __('Blogs');?></h2>
 <p>
 <?php
 echo $this->Paginator->counter(array(
@@ -9,7 +9,7 @@ echo $this->Paginator->counter(array(
 <table cellpadding="0" cellspacing="0">
 <tr>
 	<th><?php echo $this->Paginator->sort('title');?></th>
-	<th class="actions"><?php __('Actions');?></th>
+	<th class="actions"><?php echo __('Actions');?></th>
 </tr>
 <?php
 $i = 0;
