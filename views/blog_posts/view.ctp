@@ -9,7 +9,7 @@
 	</div>
 </div>
 <?php 
-$this->Menu->setValue(array(
+echo $this->Element('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog',
 		'items' => array(
@@ -17,5 +17,5 @@ $this->Menu->setValue(array(
 			$this->Html->link(__('Edit Post', true), array('controller' => 'blog_posts', 'action' => 'edit', $blogPost['BlogPost']['id'])),
 			)
 		)
-	));
+	)));
 ?>
