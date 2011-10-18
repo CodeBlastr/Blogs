@@ -11,7 +11,7 @@
 			<div class="blog-post-body">
 				<?php
 				$blogPost['BlogPost']['text'] = explode('<!-- pagebreak -->',$blogPost['BlogPost']['text']);
-				echo $text->truncate(strip_tags($blogPost['BlogPost']['text'][0]), 250, array('ending' => '...', 'html' => false));
+				echo $this->Text->truncate(strip_tags($blogPost['BlogPost']['text'][0]), 250, array('ending' => '...', 'html' => false));
 				?>
 			</div>
 			<div class="blog-post-footer">
