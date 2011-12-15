@@ -1,7 +1,9 @@
 <?php
 class BlogsController extends BlogsAppController {
 	
-	function view($id=null) {
+	public $uses = 'Blogs.Blog';
+	
+	public function view($id=null) {
 		if (!empty($this->request->params['named']['user'])) {
 			$blog = $this->Blog->find('first',array(
 				'conditions' => array(
@@ -37,12 +39,12 @@ class BlogsController extends BlogsAppController {
 		}
 	}
 	
-	function index() {
+	public function index() {
 		$this->Blog->recursive = 0;
 		$this->set('blogs', $this->paginate());
 	}
 	
-	function my() {
+	public function my() {
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
 				'Blog.user_id' => $this->Session->read('Auth.User.id')
@@ -57,7 +59,7 @@ class BlogsController extends BlogsAppController {
 		}
 	}
 
-	function add() {
+	public function add() {
 		if (!empty($this->request->data)) {
 			if ($this->Blog->save($this->request->data)) {
 				$this->redirect(array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'view', $this->Blog->id));
@@ -65,7 +67,7 @@ class BlogsController extends BlogsAppController {
 		}
 	}
 	
-	function delete($id = null) {
+	public function delete($id = null) {
 		$this->__delete('Blog', $id);
 	}
 }

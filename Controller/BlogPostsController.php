@@ -1,8 +1,9 @@
 <?php
 class BlogPostsController extends BlogsAppController {
 
-	var $components = array('Comments.Comments' => array('userModelClass' => 'User'), 'Recaptcha.Recaptcha');
-	var $allowedActions = array('latest');
+	public $components = array('Comments.Comments' => array('userModelClass' => 'User'), 'Recaptcha.Recaptcha');
+	public $allowedActions = array('latest');
+	public $uses = 'Blogs.BlogPost';
 
 	function beforeFilter() {
 		parent::beforeFilter();
