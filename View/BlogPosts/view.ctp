@@ -9,7 +9,7 @@
 	</div>
 </div>
 <?php 
-echo $this->Element('context_menu', array('menus' => array(
+$this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog',
 		'items' => array(
