@@ -28,7 +28,7 @@ foreach ($blogs as $blog):
 </div>
 <?php echo $this->Element('paging'); ?>
 <?php
-echo $this->Element('context_menu', array('menus' => array(
+$this->set('context_menu', array('menus' => array(
 	array('heading' => 'Blogs',
 		'items' => array(
 			 $this->Html->link(__('New Blog', true), array('controller' => 'blogs', 'action' => 'my', 'admin' => 0)),
