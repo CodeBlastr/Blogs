@@ -1,19 +1,29 @@
 <?php
 class BlogPostsController extends BlogsAppController {
 
-	public $components = array('Comments.Comments' => array('userModelClass' => 'User'), 'Recaptcha.Recaptcha');
+	public $components = array('Comments.Comments' => array('userModelClass' => 'User'));
 	public $allowedActions = array('latest');
 	public $uses = 'Blogs.BlogPost';
+	
+	
+	public function __construct($request = null, $response = null) {
+		parent::__construct($request, $response);
+		if (in_array('Recaptcha', CakePlugin::loaded())) { 
+			$this->components[] = 'Recaptcha.Recaptcha'; 
+		}
+	}
 
-	function beforeFilter() {
+	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->passedArgs['comment_view_type'] = 'threaded';
 	}
 	
-	/**
-	 * @todo 		Need to find a better way more reusable way to use recaptcha
-	 */
-	function view($id=null) {
+/**
+ * View method
+ *
+ * @todo 		Need to find a better way more reusable way to use recaptcha
+ */
+	public function view($id=null) {
 		# temporary recaptcha placement
 		if (!empty($this->request->data)) {
 			if ($this->Recaptcha->verify()) {
@@ -52,7 +62,7 @@ class BlogPostsController extends BlogsAppController {
 		$this->set('blogPost',$blogPost);
 	}
 	
-	function add() {
+	public function add() {
 		if(isset($this->request->params['named']['blog_id'])) {
 			$blogId = $this->request->params['named']['blog_id'];
 		} else if(isset($this->request->data['BlogPost']['blog_id'])) {
@@ -90,7 +100,7 @@ class BlogPostsController extends BlogsAppController {
 		}
 	}//add()
 	
-	function edit($id = null) {
+	public function edit($id = null) {
 		
 		if(isset($this->request->data['BlogPost']['id'])) $id = $this->request->data['BlogPost']['id'];
 
@@ -123,7 +133,7 @@ class BlogPostsController extends BlogsAppController {
 
 	}//edit()
 	
-	function latest() {
+	public function latest() {
 		#$this->Project = ClassRegistry::init('Projects.Project'); #TODO: why is this necessary here?
 		
 		if(isset($this->request->params['named']['blog_id']) && isset($this->request->params['named']['limit'])) {
@@ -141,5 +151,4 @@ class BlogPostsController extends BlogsAppController {
 		}
 	}//most_watched()
 
-}//controller
-?>
+}//controller 

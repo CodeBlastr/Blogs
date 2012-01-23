@@ -19,21 +19,13 @@ class BlogsController extends BlogsAppController {
 		));
 		$this->set('blog',$blog);
 		if(isset($blog['Blog'])) {
-			$this->paginate = array(
-				'limit' => 15,
-				'order' => array(
-					'BlogPost.created' => 'DESC',
-				),
-				'contain' => array(
-					'User',
-					),
-			);
-			$blogPosts = $this->paginate($this->Blog->BlogPost,array(
-				'BlogPost.blog_id' => $id,
-			));
-			$this->set('blogPosts',$blogPosts);
-		}
-		else {
+			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
+			$this->paginate['limit'] = 15;
+			$this->paginate['order']['BlogPost.created'] = 'DESC';
+			$this->paginate['contain'][] = 'User';
+			$blogPosts = $this->paginate('BlogPost');
+			$this->set('blogPosts', $blogPosts);
+		} else {
 			$this->Session->setFlash('Unable to find blog');
 			$this->render(false);
 		}
