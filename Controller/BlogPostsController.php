@@ -62,11 +62,13 @@ class BlogPostsController extends BlogsAppController {
 		$this->set('blogPost',$blogPost);
 	}
 	
-	public function add() {
-		if(isset($this->request->params['named']['blog_id'])) {
-			$blogId = $this->request->params['named']['blog_id'];
-		} else if(isset($this->request->data['BlogPost']['blog_id'])) {
-			$blogId = $this->request->data['BlogPost']['blog_id'];
+/**
+ * Add method
+ */
+	public function add($blogId = null) {
+		$this->BlogPost->Blog->id = $blogId;
+		if (!$this->BlogPost->Blog->exists()) {
+			throw new NotFoundException(__('Invalid blog.'));
 		}
   			
 		if(isset($blogId)) {
@@ -76,19 +78,14 @@ class BlogPostsController extends BlogsAppController {
 				)
 		   	));
 			if(isset($blog['Blog'])) {
-				if($this->Session->read('Auth.User.id') == $blog['Blog']['creator_id']) {
-					if(!empty($this->request->data)) {
-						if($this->BlogPost->save($this->request->data)) {
-			   				$this->Session->setFlash('Blog Post Saved');
-							$this->redirect('/blogs/blog_posts/view/' . $this->BlogPost->id);
-						} else {
- 						 	$this->Session->setFlash('Save error');
-							$this->render(false);
-						}
-					} 
-				} else {
-					$this->Session->setFlash('You do not own this blog');
-					$this->render(false);
+				if(!empty($this->request->data)) {
+					if($this->BlogPost->save($this->request->data)) {
+			   			$this->Session->setFlash('Blog Post Saved');
+						$this->redirect('/blogs/blog_posts/view/' . $this->BlogPost->id);
+					} else {
+ 					 	$this->Session->setFlash('Save error');
+						$this->render(false);
+					}
 				}
 			} else {
 			    $this->Session->setFlash('Invalid blog');
@@ -98,8 +95,13 @@ class BlogPostsController extends BlogsAppController {
 			$this->Session->setFlash('Must specify blog');
 			$this->render(false);
 		}
-	}//add()
+		$this->set(compact('blogId'));
+	}
 	
+	
+/**
+ * Edit method
+ */
 	public function edit($id = null) {
 		
 		if(isset($this->request->data['BlogPost']['id'])) $id = $this->request->data['BlogPost']['id'];

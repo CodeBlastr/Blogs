@@ -27,12 +27,11 @@
 	</div>
 </div>
 <?php
-if($blog['Blog']['user_id'] == $this->Session->read('Auth.User.id')) {
 $this->set('context_menu', array('menus' => array(
-	array('heading' => 'Blog',
+	array(
+		'heading' => 'Blog',
 		'items' => array(
-			$this->Html->link(__('Add Blog Entry', true), array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'add', 'blog_id' => $blog['Blog']['id']), array('checkPermissions' => true)),
+			$this->Html->link(__('Add Post', true), array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'add', $blog['Blog']['id']), array('checkPermissions' => true)),
 			)
 		)
-	)));
-} ?>
+	))); ?>

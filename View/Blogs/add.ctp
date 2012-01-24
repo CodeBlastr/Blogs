@@ -7,3 +7,12 @@
 	echo $this->Form->end('Add');
 	?>
 </div>
+<?php
+$this->set('context_menu', array('menus' => array(
+	array(
+		'heading' => 'Blogs',
+		'items' => array(
+			 $this->Html->link(__('List', true), array('controller' => 'blogs', 'action' => 'index')),
+			 )
+		)
+	))); ?>
