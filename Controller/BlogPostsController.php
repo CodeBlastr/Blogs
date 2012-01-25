@@ -112,10 +112,14 @@ class BlogPostsController extends BlogsAppController {
 				),
 			));
 		# _viewVars
-		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));			
-		$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
-		$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
-		$this->set(compact('categories'));
+		if (in_array('Categories', CakePlugin::loaded())) {
+			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+			$this->set(compact('categories'));
+		}
+		if (in_array('Tags', CakePlugin::loaded())) {
+			$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
+			$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
+		}
 
 	}
 	

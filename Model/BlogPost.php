@@ -45,19 +45,19 @@ class BlogPost extends BlogsAppModel {
     		'conditions' => 'Categorized.model = "BlogPost"',
     		// 'unique' => true,
 	        ),
-        'Tag' => array(
-            'className' => 'Tags.Tag',
-       		'joinTable' => 'tagged',
-            'foreignKey' => 'foreign_key',
-            'associationForeignKey' => 'tag_id',
-    		'conditions' => 'Tagged.model = "BlogPost"',
-    		// 'unique' => true,
-	        ),
 		);
 	
 	public function __construct($id = false, $table = null, $ds = null) {
 		if (in_array('Tags', CakePlugin::loaded())) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
+			$this->hasAndBelongsToMany['Tag'] = array(
+            	'className' => 'Tags.Tag',
+	       		'joinTable' => 'tagged',
+	            'foreignKey' => 'foreign_key',
+	            'associationForeignKey' => 'tag_id',
+	    		'conditions' => 'Tagged.model = "BlogPost"',
+	    		// 'unique' => true,
+		        );
 		}
     	parent::__construct($id, $table, $ds);
 		

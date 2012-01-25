@@ -12,10 +12,12 @@
 	echo $this->Form->input('BlogPost.title', array('label' => __('Post Title', true)));
 	echo $this->Form->input('BlogPost.text', array('label' => '', 'type' => 'richtext', 'ckeSettings' => array('buttons' => array('Bold','Italic','Underline', 'Format', 'FontSize','TextColor','BGColor','-','NumberedList','BulletedList','Blockquote','JustifyLeft','JustifyCenter','JustifyRight', '-', 'Link','Unlink', '-', 'Image')))); ?>
 	</fieldset>
+    <?php if (in_array('Categories', CakePlugin::loaded())) { ?>		
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Does this post belong to a category?');?></legend>
 			<?php echo $this->Form->input('Category', array('multiple' => 'checkbox', 'label' => 'Which categories? ('.$this->Html->link('add', array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'tree', 'model' => 'BlogPost')).' / '.$this->Html->link('edit', array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'tree', 'model' => 'BlogPost')).' categories)')); ?>
 	</fieldset>
+    <?php } ?>
     <?php if (in_array('Tags', CakePlugin::loaded())) { ?>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Tag this post?');?></legend>
