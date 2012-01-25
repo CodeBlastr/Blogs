@@ -29,6 +29,10 @@
 			<?php echo $this->Form->input('tags', array('label' => 'Enter comma separated tags ('.$this->Html->link('view tags', array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')).' ).')); ?>
 	</fieldset>
     <?php } ?>
+	<fieldset>
+ 		<legend class="toggleClick"><?php echo __('Discussion?');?></legend>
+			<?php echo $this->Form->input('allow_comments'); ?>
+	</fieldset>
 <?php echo $this->Form->end('Edit');?>
 </div>
 <?php

@@ -1,7 +1,6 @@
 <?php
 class BlogPostsController extends BlogsAppController {
 
-	public $components = array('Comments.Comments' => array('userModelClass' => 'User'));
 	public $allowedActions = array('latest');
 	public $uses = 'Blogs.BlogPost';
 	
@@ -10,6 +9,9 @@ class BlogPostsController extends BlogsAppController {
 		parent::__construct($request, $response);
 		if (in_array('Recaptcha', CakePlugin::loaded())) { 
 			$this->components[] = 'Recaptcha.Recaptcha'; 
+		}
+		if (in_array('Comments', CakePlugin::loaded())) { 
+			$this->components['Comments.Comments'] = array('userModelClass' => 'Author'); 
 		}
 	}
 
@@ -41,7 +43,7 @@ class BlogPostsController extends BlogsAppController {
 				'BlogPost.id' => $id,
 				),
 			'contain' => array(
-				'User'
+				'Author'
 				),
 			));
 		

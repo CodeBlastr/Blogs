@@ -24,7 +24,7 @@ class BlogsController extends BlogsAppController {
 			$this->paginate['conditions']['BlogPost.publish_date <'] = date('Y-m-d h:i:s');
 			$this->paginate['limit'] = 15;
 			$this->paginate['order']['BlogPost.created'] = 'DESC';
-			$this->paginate['contain'][] = 'User';
+			$this->paginate['contain'][] = 'Owner';
 			$blogPosts = $this->paginate('BlogPost');
 			$this->set('blogPosts', $blogPosts);
 		} else {

@@ -9,7 +9,7 @@ class Blog extends BlogsAppModel {
 	); 
 	
 	public $belongsTo = array(
-		'User' => array(
+		'Owner' => array(
 			'className' => 'Users.User',
 			'foreignKey' => 'owner_id',
 			'conditions' => '',

@@ -20,7 +20,7 @@ class BlogPost extends BlogsAppModel {
 	);
 
 	public $belongsTo = array(
-		'User' => array(
+		'Author' => array(
 			'className' => 'Users.User',
 			'foreignKey' => 'author_id',
 			'conditions' => '',
@@ -63,6 +63,12 @@ class BlogPost extends BlogsAppModel {
 		
     }
 	
+/**
+ * Add method
+ * 
+ * @param array
+ * @return bool
+ */
 	public function add($data) {
 		$postData['BlogPost'] = $data['BlogPost']; // so that we can save extra fields in the HABTM relationship
 		if ($this->save($postData)) {
@@ -84,6 +90,12 @@ class BlogPost extends BlogsAppModel {
 		}
 	}
 	
+/**
+ * The publish status of a post
+ *
+ * @param null
+ * @return array
+ */
 	public function statusTypes() {
 		return array(
 			'published' => 'Published',
