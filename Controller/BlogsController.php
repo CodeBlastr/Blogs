@@ -7,7 +7,7 @@ class BlogsController extends BlogsAppController {
 		if (!empty($this->request->params['named']['user'])) {
 			$blog = $this->Blog->find('first',array(
 				'conditions' => array(
-					'Blog.user_id' => $this->request->params['named']['user']
+					'Blog.owner_id' => $this->request->params['named']['user']
 				)
 			));
 			$this->redirect(array($blog['Blog']['id']));
@@ -39,11 +39,11 @@ class BlogsController extends BlogsAppController {
 	public function my() {
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
-				'Blog.user_id' => $this->Session->read('Auth.User.id')
+				'Blog.owner_id' => $this->Session->read('Auth.User.id')
 			)
 		));
 		if(isset($blog['Blog'])) {
-			$this->redirect('/blogs/view/' . $blog['Blog']['id']);
+			$this->redirect(array('action' => 'view', $blog['Blog']['id']));
 		}
 		else {
 			$this->Session->setFlash('You do not have a blog.');

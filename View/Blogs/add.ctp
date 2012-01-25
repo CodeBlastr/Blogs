@@ -3,7 +3,7 @@
 	<?php
 	echo $this->Form->create('Blog');
 	echo $this->Form->input('Blog.title');
-	echo $this->Form->input('Blog.user_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth.User.id')));
+	echo $this->Form->input('Blog.owner_id', array('type' => 'hidden', 'value' => $this->Session->read('Auth.User.id')));
 	echo $this->Form->end('Add');
 	?>
 </div>

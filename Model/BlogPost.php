@@ -3,10 +3,10 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 
 class BlogPost extends BlogsAppModel {
 
-	var $name = "BlogPost";
-	var $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
+	public $name = "BlogPost";
+	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
 	
-	var $validate = array(
+	public $validate = array(
 		'title' => array(
 			'rule' => array('between',8,128),
 			'required' => true,
@@ -19,16 +19,20 @@ class BlogPost extends BlogsAppModel {
 		)
 	);
 
-	var $belongsTo = array(
+	public $belongsTo = array(
 		'User' => array(
 			'className' => 'Users.User',
-			'foreignKey' => 'user_id',
+			'foreignKey' => 'author_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 			), 
 		'Blog' => array(
-			'className' => 'Blogs.Blog'
+			'className' => 'Blogs.Blog',
+			'foreignKey' => 'blog_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 			),
 		);
 
@@ -44,7 +48,8 @@ class BlogPost extends BlogsAppModel {
 		);
 	
 	public function add($data) {
-		if ($this->save($data)) {
+		$postData['BlogPost'] = $data['BlogPost']; // so that we can save extra fields in the HABTM relationship
+		if ($this->save($postData)) {
 			# this is how the categories data should look when coming in.
 			if (isset($data['Category']['Category'][0])) {
 				$categorized = array('BlogPost' => array('id' => array($this->id)));
@@ -52,7 +57,7 @@ class BlogPost extends BlogsAppModel {
 					$categorized['Category']['id'][] = $catId;
 				}
 				if ($this->Category->categorized($categorized, 'BlogPost')) {
-					return true;
+					# do nothing, the return is at the bottom of this if
 				} else {
 					throw new Exception(__d('blogs', 'Blog post category save failed.'));
 				}
