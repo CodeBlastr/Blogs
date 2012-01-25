@@ -70,32 +70,18 @@ class BlogPostsController extends BlogsAppController {
 		if (!$this->BlogPost->Blog->exists()) {
 			throw new NotFoundException(__('Invalid blog.'));
 		}
-  			
-		if(isset($blogId)) {
-			$blog = $this->BlogPost->Blog->find('first',array(
-				'conditions' => array(
-					'Blog.id' => $blogId
-				)
-		   	));
-			if(isset($blog['Blog'])) {
-				if(!empty($this->request->data)) {
-					if($this->BlogPost->save($this->request->data)) {
-			   			$this->Session->setFlash('Blog Post Saved');
-						$this->redirect('/blogs/blog_posts/view/' . $this->BlogPost->id);
-					} else {
- 					 	$this->Session->setFlash('Save error');
-						$this->render(false);
-					}
-				}
-			} else {
-			    $this->Session->setFlash('Invalid blog');
-				$this->render(false);
+  		
+		if(!empty($this->request->data)) {
+			try {
+				$this->BlogPost->add($this->request->data);
+				$this->Session->setFlash('Blog Post Saved');
+				$this->redirect(array('action' => 'view', $this->BlogPost->id));
+			} catch (Exception $e) {
+				$this->Session->setFlash($e->getMessage());
 			}
-		} else {
-			$this->Session->setFlash('Must specify blog');
-			$this->render(false);
 		}
-		$this->set(compact('blogId'));
+		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+		$this->set(compact('blogId', 'categories'));
 	}
 	
 	
@@ -103,35 +89,32 @@ class BlogPostsController extends BlogsAppController {
  * Edit method
  */
 	public function edit($id = null) {
-		
-		if(isset($this->request->data['BlogPost']['id'])) $id = $this->request->data['BlogPost']['id'];
-
-		if(isset($id)) {
-			if(!empty($this->request->data)) {
-				if($this->BlogPost->save($this->request->data)) {
-					$this->Session->setFlash('Blog Post Saved');
-					$this->redirect('/blogs/blog_posts/view/' . $this->BlogPost->id);
-				} else {
-					$this->Session->setFlash('Save error');
-					$this->render(false);
-				}
-			} else {
-				$blogPost = $this->BlogPost->find('first',array(
-					'conditions' => array(
-						'BlogPost.id' => $id
-						)
-					));
-				if($blogPost) {
-					$this->set('blogPost',$blogPost);
-				} else {
-					$this->Session->setFlash('Blog Post not found');
-					$this->render(false);
-				}
-			}
-		} else {
-			$this->Session->setFlash('You must specify a blog post');
-			$this->render(false);
+		$this->BlogPost->id = $id;
+		if (!$this->BlogPost->exists()) {
+			throw new NotFoundException(__('Invalid post.'));
 		}
+
+		if(!empty($this->request->data)) {
+			try {
+				$this->BlogPost->add($this->request->data);
+				$this->Session->setFlash('Blog Post Saved');
+				$this->redirect(array('action' => 'view', $this->BlogPost->id));
+			} catch (Exception $e) {
+				$this->Session->setFlash($e->getMessage());
+			}
+		}
+		
+		$this->request->data = $this->BlogPost->find('first',array(
+			'conditions' => array(
+				'BlogPost.id' => $id
+				),
+			'contain' => array(
+				'Category',
+				),
+			));
+			
+		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+		$this->set(compact('categories'));
 
 	}//edit()
 	

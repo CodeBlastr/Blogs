@@ -1,4 +1,6 @@
 <?php
+App::uses('BlogsAppModel', 'Blogs.Model');
+
 class Blog extends BlogsAppModel {
 	public $hasMany = array(
 		'BlogPost' => array(

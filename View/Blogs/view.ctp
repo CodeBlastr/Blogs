@@ -31,7 +31,7 @@ $this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog',
 		'items' => array(
-			$this->Html->link(__('Add Post', true), array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'add', $blog['Blog']['id']), array('checkPermissions' => true)),
+			$this->Html->link(__('Add', true), array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'add', $blog['Blog']['id']), array('checkPermissions' => true, 'class' => 'add')),
 			)
 		)
 	))); ?>
