@@ -83,5 +83,13 @@ class BlogPost extends BlogsAppModel {
 			throw new Exception(__d('blogs', 'Blog post save failed.'));
 		}
 	}
+	
+	public function statusTypes() {
+		return array(
+			'published' => 'Published',
+			'draft' => 'Draft',
+			'pending' => 'Pending Approval',
+			);
+	}
 }
 ?>

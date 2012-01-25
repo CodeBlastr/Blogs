@@ -14,12 +14,14 @@ class BlogsController extends BlogsAppController {
 		}
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
-				'Blog.id' => $id
+				'Blog.id' => $id,
 			)
 		));
 		$this->set('blog',$blog);
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
+			$this->paginate['conditions']['BlogPost.status'] = 'published';
+			$this->paginate['conditions']['BlogPost.publish_date <'] = date('Y-m-d h:i:s');
 			$this->paginate['limit'] = 15;
 			$this->paginate['order']['BlogPost.created'] = 'DESC';
 			$this->paginate['contain'][] = 'User';

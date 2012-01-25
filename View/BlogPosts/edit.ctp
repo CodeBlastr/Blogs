@@ -12,6 +12,11 @@
 	echo $this->Form->input('BlogPost.title', array('label' => __('Post Title', true)));
 	echo $this->Form->input('BlogPost.text', array('label' => '', 'type' => 'richtext', 'ckeSettings' => array('buttons' => array('Bold','Italic','Underline', 'Format', 'FontSize','TextColor','BGColor','-','NumberedList','BulletedList','Blockquote','JustifyLeft','JustifyCenter','JustifyRight', '-', 'Link','Unlink', '-', 'Image')))); ?>
 	</fieldset>
+	<fieldset>
+ 		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
+			<?php echo $this->Form->input('BlogPost.status'); ?>
+			<?php echo $this->Form->input('BlogPost.publish_date', array('value' => date('Y-m-d h:i'))); ?>
+	</fieldset>
     <?php if (in_array('Categories', CakePlugin::loaded())) { ?>		
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Does this post belong to a category?');?></legend>

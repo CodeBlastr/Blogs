@@ -38,7 +38,7 @@ class BlogPostsController extends BlogsAppController {
 
 		$blogPost = $this->BlogPost->find('first',array(
 			'conditions' => array(
-				'BlogPost.id' => $id
+				'BlogPost.id' => $id,
 				),
 			'contain' => array(
 				'User'
@@ -80,7 +80,8 @@ class BlogPostsController extends BlogsAppController {
 			}
 		}
 		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
-		$this->set(compact('blogId', 'categories'));
+		$statuses = $this->BlogPost->statusTypes();
+		$this->set(compact('blogId', 'categories', 'statuses'));
 	}
 	
 	
@@ -120,7 +121,8 @@ class BlogPostsController extends BlogsAppController {
 			$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
 			$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
 		}
-
+		$statuses = $this->BlogPost->statusTypes();
+		$this->set(compact('statuses'));
 	}
 	
 	public function latest() {
