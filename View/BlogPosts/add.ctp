@@ -15,6 +15,12 @@
  		<legend class="toggleClick"><?php echo __('Does this post belong to a category?');?></legend>
 			<?php echo $this->Form->input('Category', array('multiple' => 'checkbox', 'label' => 'Which categories? ('.$this->Html->link('add', array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'tree', 'model' => 'BlogPost')).' / '.$this->Html->link('edit', array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'tree', 'model' => 'BlogPost')).' categoies)')); ?>
 	</fieldset>
+    <?php if (in_array('Tags', CakePlugin::loaded())) { ?>
+	<fieldset>
+ 		<legend class="toggleClick"><?php echo __('Tag this post?');?></legend>
+			<?php echo $this->Form->input('tags', array('label' => 'Enter comma separated tags ('.$this->Html->link('view tags', array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')).' ).')); ?>
+	</fieldset>
+    <?php } ?>
 <?php echo $this->Form->end('Add');?>
 </div>
 <?php

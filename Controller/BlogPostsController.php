@@ -58,7 +58,6 @@ class BlogPostsController extends BlogsAppController {
 			'limit' => 5,
 			'conditions'=>array('model' => 'Blogs.BlogPost')
 		));
-		
 		$this->set('blogPost',$blogPost);
 	}
 	
@@ -112,11 +111,13 @@ class BlogPostsController extends BlogsAppController {
 				'Category',
 				),
 			));
-			
-		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+		# _viewVars
+		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));			
+		$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
+		$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
 		$this->set(compact('categories'));
 
-	}//edit()
+	}
 	
 	public function latest() {
 		#$this->Project = ClassRegistry::init('Projects.Project'); #TODO: why is this necessary here?
@@ -134,6 +135,6 @@ class BlogPostsController extends BlogsAppController {
 			  return $this->BlogPost->find('all', $options);
 
 		}
-	}//most_watched()
+	}
 
-}//controller 
+}

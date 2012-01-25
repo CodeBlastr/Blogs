@@ -45,7 +45,23 @@ class BlogPost extends BlogsAppModel {
     		'conditions' => 'Categorized.model = "BlogPost"',
     		// 'unique' => true,
 	        ),
+        'Tag' => array(
+            'className' => 'Tags.Tag',
+       		'joinTable' => 'tagged',
+            'foreignKey' => 'foreign_key',
+            'associationForeignKey' => 'tag_id',
+    		'conditions' => 'Tagged.model = "BlogPost"',
+    		// 'unique' => true,
+	        ),
 		);
+	
+	public function __construct($id = false, $table = null, $ds = null) {
+		if (in_array('Tags', CakePlugin::loaded())) {
+			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
+		}
+    	parent::__construct($id, $table, $ds);
+		
+    }
 	
 	public function add($data) {
 		$postData['BlogPost'] = $data['BlogPost']; // so that we can save extra fields in the HABTM relationship
