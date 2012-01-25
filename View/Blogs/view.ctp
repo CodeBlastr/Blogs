@@ -7,7 +7,7 @@
 		?>
 		<div class="blogPost" id="post_<?php $blogPost['BlogPost']['id']; ?>">
 			<h2><?php echo $this->Html->link($blogPost['BlogPost']['title'], array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'view', $blogPost['BlogPost']['id'])); ?></h2>
-			<div class="blog-post-sub-header">By <?php echo $blogPost['User']['username'] ?>  | Last updated <?php echo $blogPost['BlogPost']['modified'] ?></div>
+			<div class="blog-post-sub-header">By <?php echo $blogPost['Author']['username'] ?>  | Last updated <?php echo $blogPost['BlogPost']['modified'] ?></div>
 			<div class="blog-post-body">
 				<?php
 				$blogPost['BlogPost']['text'] = explode('<!-- pagebreak -->',$blogPost['BlogPost']['text']);

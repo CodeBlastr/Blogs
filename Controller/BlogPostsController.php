@@ -11,7 +11,7 @@ class BlogPostsController extends BlogsAppController {
 			$this->components[] = 'Recaptcha.Recaptcha'; 
 		}
 		if (in_array('Comments', CakePlugin::loaded())) { 
-			$this->components['Comments.Comments'] = array('userModelClass' => 'Author'); 
+			$this->components['Comments.Comments'] = array('userModelClass' => 'User'); 
 		}
 	}
 
@@ -36,7 +36,6 @@ class BlogPostsController extends BlogsAppController {
 				$this->redirect($this->referer());
 		    }
 		}
-		Inflector::variable("BlogPost");
 
 		$blogPost = $this->BlogPost->find('first',array(
 			'conditions' => array(
@@ -81,9 +80,12 @@ class BlogPostsController extends BlogsAppController {
 				$this->Session->setFlash($e->getMessage());
 			}
 		}
+		$authors = $this->BlogPost->Author->find('list');
 		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
 		$statuses = $this->BlogPost->statusTypes();
-		$this->set(compact('blogId', 'categories', 'statuses'));
+		$blog = $this->BlogPost->Blog->find('first', array('conditions' => array('Blog.id' => $blogId)));
+		$page_title_for_layout = __('Add Blog Post to %s', $blog['Blog']['title']);
+		$this->set(compact('authors', 'blogId', 'categories', 'statuses', 'page_title_for_layout'));
 	}
 	
 	
@@ -106,7 +108,7 @@ class BlogPostsController extends BlogsAppController {
 			}
 		}
 		
-		$this->request->data = $this->BlogPost->find('first',array(
+		$blogPost = $this->BlogPost->find('first',array(
 			'conditions' => array(
 				'BlogPost.id' => $id
 				),
@@ -114,6 +116,7 @@ class BlogPostsController extends BlogsAppController {
 				'Category',
 				),
 			));
+		$this->request->data = $blogPost;
 		# _viewVars
 		if (in_array('Categories', CakePlugin::loaded())) {
 			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
@@ -123,8 +126,10 @@ class BlogPostsController extends BlogsAppController {
 			$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
 			$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
 		}
+		$authors = $this->BlogPost->Author->find('list');
 		$statuses = $this->BlogPost->statusTypes();
-		$this->set(compact('statuses'));
+		$page_title_for_layout = __('Edit %s', $blogPost['BlogPost']['title']);
+		$this->set(compact('authors', 'statuses', 'page_title_for_layout'));
 	}
 	
 	public function latest() {
