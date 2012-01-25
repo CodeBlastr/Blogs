@@ -18,7 +18,8 @@ foreach ($blogs as $blog):
 			<?php echo $blog['Blog']['title']; ?>
 		</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $blog['Blog']['id'], 'admin' => 0)); ?>
+			<?php echo $this->Html->link(__('Post', true), array('controller' => 'blog_posts', 'action' => 'add', $blog['Blog']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $blog['Blog']['id'])); ?>
 			<?php # echo $this->Html->link(__('Edit', true), array('action' => 'edit', $blog['Blog']['id'])); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $blog['Blog']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $blog['Blog']['id'])); ?>
 		</td>
@@ -31,8 +32,7 @@ foreach ($blogs as $blog):
 $this->set('context_menu', array('menus' => array(
 	array('heading' => 'Blogs',
 		'items' => array(
-			 $this->Html->link(__('New Blog', true), array('controller' => 'blogs', 'action' => 'my', 'admin' => 0)),
+			 $this->Html->link(__('Add', true), array('controller' => 'blogs', 'action' => 'add'), array('class' => 'add')),
 			 )
 		)
-	)));
-?>
+	))); ?>

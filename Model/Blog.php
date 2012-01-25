@@ -1,4 +1,6 @@
 <?php
+App::uses('BlogsAppModel', 'Blogs.Model');
+
 class Blog extends BlogsAppModel {
 	public $hasMany = array(
 		'BlogPost' => array(
@@ -7,16 +9,9 @@ class Blog extends BlogsAppModel {
 	); 
 	
 	public $belongsTo = array(
-		'User' => array(
+		'Owner' => array(
 			'className' => 'Users.User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Creator' => array(
-			'className' => 'Users.User',
-			'foreignKey' => 'creator_id',
+			'foreignKey' => 'owner_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

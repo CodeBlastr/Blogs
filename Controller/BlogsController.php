@@ -7,33 +7,27 @@ class BlogsController extends BlogsAppController {
 		if (!empty($this->request->params['named']['user'])) {
 			$blog = $this->Blog->find('first',array(
 				'conditions' => array(
-					'Blog.user_id' => $this->request->params['named']['user']
+					'Blog.owner_id' => $this->request->params['named']['user']
 				)
 			));
 			$this->redirect(array($blog['Blog']['id']));
 		}
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
-				'Blog.id' => $id
+				'Blog.id' => $id,
 			)
 		));
 		$this->set('blog',$blog);
 		if(isset($blog['Blog'])) {
-			$this->paginate = array(
-				'limit' => 15,
-				'order' => array(
-					'BlogPost.created' => 'DESC',
-				),
-				'contain' => array(
-					'User',
-					),
-			);
-			$blogPosts = $this->paginate($this->Blog->BlogPost,array(
-				'BlogPost.blog_id' => $id,
-			));
-			$this->set('blogPosts',$blogPosts);
-		}
-		else {
+			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
+			$this->paginate['conditions']['BlogPost.status'] = 'published';
+			$this->paginate['conditions']['BlogPost.publish_date <'] = date('Y-m-d h:i:s');
+			$this->paginate['limit'] = 15;
+			$this->paginate['order']['BlogPost.created'] = 'DESC';
+			$this->paginate['contain'][] = 'Author';
+			$blogPosts = $this->paginate('BlogPost');
+			$this->set('blogPosts', $blogPosts);
+		} else {
 			$this->Session->setFlash('Unable to find blog');
 			$this->render(false);
 		}
@@ -47,11 +41,11 @@ class BlogsController extends BlogsAppController {
 	public function my() {
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
-				'Blog.user_id' => $this->Session->read('Auth.User.id')
+				'Blog.owner_id' => $this->Session->read('Auth.User.id')
 			)
 		));
 		if(isset($blog['Blog'])) {
-			$this->redirect('/blogs/view/' . $blog['Blog']['id']);
+			$this->redirect(array('action' => 'view', $blog['Blog']['id']));
 		}
 		else {
 			$this->Session->setFlash('You do not have a blog.');
