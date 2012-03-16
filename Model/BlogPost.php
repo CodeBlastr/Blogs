@@ -68,8 +68,8 @@ class BlogPost extends BlogsAppModel {
 		
     }
 	
-	/*
-	public function afterSave($created) {		
+	
+	/*public function afterSave($created) {		
 		// use twitter behavior to update status about new post
 		if ($created && in_array('Twitter', CakePlugin::loaded())) {
 			$credentialCheck = $this->accountVerifyCredentials();
@@ -85,9 +85,9 @@ class BlogPost extends BlogsAppModel {
 						'UserConnect.user_id' => CakeSession::read('Auth.User.id'),
 						),
 					));
-				$connect = unserialize($twitter['UserConnect']['value']);
+				$connect = unserialize($twitter['UserConnect']['value']);				
 				$this->reAuthorizeTwitterUser($connect['oauth_token'], $connect['oauth_token_secret']); 
-				$credentialCheck = $this->accountVerifyCredentials();
+				#$credentialCheck = $this->accountVerifyCredentials();
 			debug($credentialCheck);
 			debug($connect);
 				  break;
