@@ -61,7 +61,7 @@ class BlogPost extends BlogsAppModel {
 		}
 		
 		if (in_array('Twitter', CakePlugin::loaded())) {
-			$this->actsAs = array('Twitter.Twitter');
+			$this->actsAs[] = 'Twitter.Twitter';
 		}
 		
     	parent::__construct($id, $table, $ds);
