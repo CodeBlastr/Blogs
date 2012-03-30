@@ -58,45 +58,40 @@ class BlogPost extends BlogsAppModel {
 	    		'conditions' => 'Tagged.model = "BlogPost"',
 	    		// 'unique' => true,
 		        );
-		}
-		
-		if (in_array('Twitter', CakePlugin::loaded())) {
-			$this->actsAs[] = 'Twitter.Twitter';
-		}
-		
-    	parent::__construct($id, $table, $ds);
-		
+		}		
+    	parent::__construct($id, $table, $ds);		
     }
 	
-	
-	/*public function afterSave($created) {		
+/**
+ * After save
+ * 
+ * @return null
+ * @todo		Not the best way to handle this.  Would be cool if it were a callback or something.
+ */
+	public function afterSave($created) {		
 		// use twitter behavior to update status about new post
 		if ($created && in_array('Twitter', CakePlugin::loaded())) {
-			$credentialCheck = $this->accountVerifyCredentials();
-			$body = $this->data['BlogPost']['title'] . ' http://' . $_SERVER['HTTP_HOST'] . '/blogs/blog_posts/view/' . $this->id; 
-			if (empty($credentialCheck['error'])) {
-				$this->updateStatus($body);
-			} else {
-				// try to log the user in
-				App::uses('UserConnect', 'Users.Model');
-				$UserConnect = new UserConnect;
-				$twitter = $UserConnect->find('first', array(
-					'conditions' => array(
-						'UserConnect.user_id' => CakeSession::read('Auth.User.id'),
-						),
+			$body = $this->data['BlogPost']['title'] . ' http://'.$_SERVER['HTTP_HOST'].'/blogs/blog_posts/view/' . $this->id; 
+			
+			App::uses('UserConnect', 'Users.Model');
+			$UserConnect = new UserConnect;
+			$twitter = $UserConnect->find('first', array(
+				'conditions' => array(
+					'UserConnect.user_id' => CakeSession::read('Auth.User.id'),
+					),
+				));
+			$connect = unserialize($twitter['UserConnect']['value']);
+			
+			if (!empty($connect['oauth_token']) && !empty($connect['oauth_token_secret'])) {
+				$this->Behaviors->load('Twitter.Twitter', array(
+					'oauthToken' => $connect['oauth_token'], 
+					'oauthTokenSecret' => $connect['oauth_token_secret'],
 					));
-				$connect = unserialize($twitter['UserConnect']['value']);				
-				$this->reAuthorizeTwitterUser($connect['oauth_token'], $connect['oauth_token_secret']); 
-				#$credentialCheck = $this->accountVerifyCredentials();
-			debug($credentialCheck);
-			debug($connect);
-				  break;
-				if (!empty($credentialCheck)) {
-					$this->updateStatus($body);
-				}
-			}					
+				$this->updateStatus($body);
+			}				
 		}
-	}*/
+	}
+	
 	
 /**
  * Add method
