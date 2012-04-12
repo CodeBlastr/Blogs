@@ -10,7 +10,7 @@
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.publish_date', array('value' => date('Y-m-d h:i'))); ?>
+			<?php echo $this->Form->input('BlogPost.publish_date'); ?>
 	</fieldset>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Search Optimization Meta');?></legend>

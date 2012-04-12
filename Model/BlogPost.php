@@ -62,6 +62,21 @@ class BlogPost extends BlogsAppModel {
     	parent::__construct($id, $table, $ds);		
     }
 	
+	
+	
+/**
+ * Before save
+ * 
+ * @return bool
+ */
+	public function beforeSave() {
+		if (isset($this->data['BlogPost']['publish_date']) && empty($this->data['BlogPost']['publish_date'])) {
+			$this->data['BlogPost']['publish_date'] = date('Y-m-d');
+		}
+		return true;
+	}
+	
+	
 /**
  * After save
  * 

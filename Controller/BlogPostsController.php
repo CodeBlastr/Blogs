@@ -70,7 +70,6 @@ class BlogPostsController extends BlogsAppController {
 		if (!$this->BlogPost->Blog->exists()) {
 			throw new NotFoundException(__('Invalid blog.'));
 		}
-  		
 		if(!empty($this->request->data)) {
 			try {
 				$this->BlogPost->add($this->request->data);
@@ -81,7 +80,11 @@ class BlogPostsController extends BlogsAppController {
 			}
 		}
 		$authors = $this->BlogPost->Author->find('list');
-		$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+		if (in_array('Categories', CakePlugin::loaded())) {
+			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+		} else {
+			$categories = null;
+		}
 		$statuses = $this->BlogPost->statusTypes();
 		$blog = $this->BlogPost->Blog->find('first', array('conditions' => array('Blog.id' => $blogId)));
 		$page_title_for_layout = __('Add Blog Post to %s', $blog['Blog']['title']);
