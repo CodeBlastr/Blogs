@@ -10,14 +10,14 @@
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.publish_date'); ?>
+			<?php echo $this->Form->input('BlogPost.published'); ?>
 	</fieldset>
-	<fieldset>
+	<?php /* move these fields to aliases table	<fieldset>
  		<legend class="toggleClick"><?php echo __('Search Optimization Meta');?></legend>
 			<?php echo $this->Form->input('BlogPost.seo_title'); ?>
 			<?php echo $this->Form->input('BlogPost.seo_keywords'); ?>
 			<?php echo $this->Form->input('BlogPost.seo_descriptions'); ?>
-	</fieldset>
+	</fieldset> */ ?>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Excerpt');?></legend>
 			<?php echo $this->Form->input('BlogPost.introduction'); ?>

@@ -70,8 +70,8 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function beforeSave() {
-		if (isset($this->data['BlogPost']['publish_date']) && empty($this->data['BlogPost']['publish_date'])) {
-			$this->data['BlogPost']['publish_date'] = date('Y-m-d');
+		if (isset($this->data['BlogPost']['published']) && empty($this->data['BlogPost']['published'])) {
+			$this->data['BlogPost']['published'] = date('Y-m-d');
 		}
 		return true;
 	}
