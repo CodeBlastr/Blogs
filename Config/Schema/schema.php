@@ -1,17 +1,18 @@
 <?php 
 class BlogsSchema extends CakeSchema {
-	
-	public $renames = array(
-		'blog_posts' => array(
-			'publish_date' => 'published'
-			),
-		'blogs' => array(
-			'public' => 'is_public'
-			),
-		);
+
+	public $renames = array();
+
+	public function __construct($options = array()) {
+		parent::__construct();
+		$this->renames = array(
+			'blog_posts' => array('publish_date' => 'published'),
+			'blogs' => array('public' => 'is_public')
+			);
+	}
 
 	public function before($event = array()) {
-		App::uses('UpdateSchema', 'Model');
+		App::uses('UpdateSchema', 'Model'); 
 		$this->UpdateSchema = new UpdateSchema;
 		$before = $this->UpdateSchema->before($event);
 		return $before;

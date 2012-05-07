@@ -35,17 +35,6 @@ class BlogPost extends BlogsAppModel {
 			'order' => ''
 			),
 		);
-
-    public $hasAndBelongsToMany = array(
-        'Category' => array(
-            'className' => 'Categories.Category',
-       		'joinTable' => 'categorized',
-            'foreignKey' => 'foreign_key',
-            'associationForeignKey' => 'category_id',
-    		'conditions' => 'Categorized.model = "BlogPost"',
-    		// 'unique' => true,
-	        ),
-		);
 	
 	public function __construct($id = false, $table = null, $ds = null) {
 		if (in_array('Tags', CakePlugin::loaded())) {
@@ -58,7 +47,17 @@ class BlogPost extends BlogsAppModel {
 	    		'conditions' => 'Tagged.model = "BlogPost"',
 	    		// 'unique' => true,
 		        );
-		}		
+		}
+		if (in_array('Categories', CakePlugin::loaded())) {
+			$this->hasAndBelongsToMany['Category'] = array(
+            	'className' => 'Categories.Category',
+	       		'joinTable' => 'categorized',
+	            'foreignKey' => 'foreign_key',
+	            'associationForeignKey' => 'category_id',
+    			'conditions' => 'Categorized.model = "BlogPost"',
+	    		// 'unique' => true,
+		        );
+		}
     	parent::__construct($id, $table, $ds);		
     }
 	
