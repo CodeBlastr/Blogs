@@ -1,17 +1,25 @@
 <?php 
 class BlogsSchema extends CakeSchema {
+	
+	public $renames = array(
+		'blog_posts' => array(
+			'publish_date' => 'published'
+			),
+		'blogs' => array(
+			'public' => 'is_public'
+			),
+		);
 
 	public function before($event = array()) {
-		App::uses('ZuhaSchema', 'Model');
-		$this->ZuhaSchema = new ZuhaSchema;
-		$before = $this->ZuhaSchema->before($event);
+		App::uses('UpdateSchema', 'Model');
+		$this->UpdateSchema = new UpdateSchema;
+		$before = $this->UpdateSchema->before($event);
 		return $before;
 	}
 
 	public function after($event = array()) {
-		$this->ZuhaSchema->rename($event, 'blog_posts', 'publish_date', 'published');	
-		$this->ZuhaSchema->rename($event, 'blogs', 'public', 'is_public');	
-		$this->ZuhaSchema->after($event);
+		$this->UpdateSchema->rename($event, $this->renames);
+		$this->UpdateSchema->after($event);
 	}
 
 	public $blog_posts = array(
