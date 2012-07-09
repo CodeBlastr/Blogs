@@ -10,7 +10,7 @@
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.published'); ?>
+			<?php echo $this->Form->input('BlogPost.published', array('default' => date('Y-m-d h:i:s'))); ?>
 	</fieldset>
 	<?php /* move these fields to aliases table	<fieldset>
  		<legend class="toggleClick"><?php echo __('Search Optimization Meta');?></legend>
