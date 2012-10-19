@@ -17,6 +17,7 @@ class BlogsController extends BlogsAppController {
 				'Blog.id' => $id,
 			)
 		));
+		$this->set('page_title_for_layout', $blog['Blog']['title']);
 		$this->set('blog',$blog);
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
@@ -35,6 +36,8 @@ class BlogsController extends BlogsAppController {
 	
 	public function index() {
 		$this->Blog->recursive = 0;
+		$this->set('displayName', 'title');
+		$this->set('displayDescription', '');
 		$this->set('blogs', $this->paginate());
 	}
 	

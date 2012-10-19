@@ -1,4 +1,3 @@
-<h1><?php echo $blog['Blog']['title']; ?></h1>
 <div id="blogs-blogs-view" class="blogs view">
 	<div id="blog-posts">
 		<?php
