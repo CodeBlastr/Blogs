@@ -12,7 +12,7 @@ $this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blogs',
 		'items' => array(
-			 $this->Html->link(__('List', true), array('controller' => 'blogs', 'action' => 'index')),
+			 $this->Html->link(__('List'), array('controller' => 'blogs', 'action' => 'index')),
 			 )
 		)
 	))); ?>
