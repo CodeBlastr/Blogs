@@ -26,7 +26,7 @@ class BlogPostsController extends BlogsAppController {
  * @todo 		Need to find a better way more reusable way to use recaptcha
  */
 	public function view($id=null) {
-		# temporary recaptcha placement
+		// temporary recaptcha placement
 		if (!empty($this->request->data)) {
 			if ($this->Recaptcha->verify()) {
 		        // do something, save you data, login, whatever
@@ -60,6 +60,7 @@ class BlogPostsController extends BlogsAppController {
 			'conditions'=>array('model' => 'Blogs.BlogPost')
 		));
 		$this->set('blogPost',$blogPost);
+		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
 	}
 	
 /**
