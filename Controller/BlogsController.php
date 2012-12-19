@@ -2,8 +2,24 @@
 class BlogsController extends BlogsAppController {
 	
 	public $uses = 'Blogs.Blog';
+	public $components = array('RequestHandler');
+	public $helpers = array('Text');
 	
 	public function view($id=null) {
+		if ($this->RequestHandler->isRss() ) {
+//			$blogPosts = $this->Blog->BlogPost->find('all', array('limit' => 20, 'order' => 'BlogPost.created DESC', 'BlogPost.status' => 'published', 'BlogPost.blog_id' => $id));
+			$blogPosts = $this->Blog->BlogPost->find('all', array(
+				'limit' => 20,
+				'order' => 'BlogPost.created DESC',
+				'conditions' => array(
+					'BlogPost.status' => 'published',
+					'BlogPost.blog_id' => $id
+				),
+				//'callbacks' => false
+			));
+			//debug($blogPosts);break;
+			return $this->set(compact('blogPosts'));
+		}
 		if (!empty($this->request->params['named']['user'])) {
 			$blog = $this->Blog->find('first',array(
 				'conditions' => array(

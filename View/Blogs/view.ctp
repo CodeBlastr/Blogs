@@ -1,3 +1,13 @@
+<?php
+echo $this->Html->meta(
+		'Most Recent Posts',
+		'/blogs/blogs/view/'.$blog['Blog']['id'].'.rss',
+		array(
+			'type' => 'rss',
+			'inline' => false
+			)
+		);
+?>
 <div id="blogs-blogs-view" class="blogs view">
 	<div id="blog-posts">
 		<?php
