@@ -7,7 +7,7 @@ class BlogsController extends BlogsAppController {
 	
 	public function view($id=null) {
 		if ($this->RequestHandler->isRss() ) {
-//			$blogPosts = $this->Blog->BlogPost->find('all', array('limit' => 20, 'order' => 'BlogPost.created DESC', 'BlogPost.status' => 'published', 'BlogPost.blog_id' => $id));
+			$this->RequestHandler->respondAs('xml');
 			$blogPosts = $this->Blog->BlogPost->find('all', array(
 				'limit' => 20,
 				'order' => 'BlogPost.created DESC',
