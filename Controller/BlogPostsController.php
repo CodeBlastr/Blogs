@@ -154,4 +154,26 @@ class BlogPostsController extends BlogsAppController {
 		}
 	}
 
+/**
+ * delete method
+ *
+ * @param string $id
+ * @return void
+ */
+    public function delete($id = null) {
+		if (!$this->request->is('post')) {
+			throw new MethodNotAllowedException();
+		}
+		$this->BlogPost->id = $id;
+		if (!$this->BlogPost->exists()) {
+			throw new NotFoundException(__('Invalid post'));
+		}
+		if ($this->BlogPost->delete()) {
+			$this->Session->setFlash(__('Post deleted'));
+			$this->redirect(array('controller' => 'blogs', 'action' => 'index'));
+		}
+		$this->Session->setFlash(__('Post was not deleted'));
+		$this->redirect(array('controller' => 'blogs', 'action' => 'index'));
+	}
+
 }

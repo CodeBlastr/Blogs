@@ -17,8 +17,8 @@ $this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog',
 		'items' => array(
-			 $this->Html->link(__('Add', true), array('controller' => 'blog_posts', 'action' => 'add', $blogPost['BlogPost']['blog_id']), array('class' => 'add')),
-			 $this->Html->link(__('List', true), array('controller' => 'blogs', 'action' => 'index',)),
+		    $this->Html->link(__('Add', true), array('controller' => 'blog_posts', 'action' => 'add', $blogPost['BlogPost']['blog_id']), array('class' => 'add')),
+			$this->Html->link(__('List', true), array('controller' => 'blogs', 'action' => 'index',)),
 			$this->Html->link(__('Edit', true), array('controller' => 'blog_posts', 'action' => 'edit', $blogPost['BlogPost']['id']), array('class' => 'edit')),
 			)
 		)

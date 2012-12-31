@@ -29,14 +29,10 @@ echo $this->Html->meta(
 		</div>
 		<?php
 			}
-			echo $this->Paginator->prev(' << ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-			echo $this->Paginator->numbers();
-			echo $this->Paginator->next(__('next') . ' >> ', array(), null, array('class' => 'next disabled'));
-
-		} else {
-		?>
-		<div>There are currently no blog posts</div>
-		<?php } ?>
+            echo $this->Element('paging');
+		} else { 
+		    echo __('<p>There are currently no blog posts</p>');
+        } ?>
 	</div>
 </div>
 <?php

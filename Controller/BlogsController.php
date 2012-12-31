@@ -5,6 +5,11 @@ class BlogsController extends BlogsAppController {
 	public $components = array('RequestHandler');
 	public $helpers = array('Text');
 	
+/**
+ * view method
+ * 
+ * @todo make this rss function available to all views and indexes automatically by just using the .rss or .xml extension
+ */
 	public function view($id=null) {
 		if ($this->RequestHandler->isRss() ) {
 			$this->RequestHandler->respondAs('xml');
@@ -15,9 +20,7 @@ class BlogsController extends BlogsAppController {
 					'BlogPost.status' => 'published',
 					'BlogPost.blog_id' => $id
 				),
-				//'callbacks' => false
 			));
-			//debug($blogPosts);break;
 			return $this->set(compact('blogPosts'));
 		}
 		if (!empty($this->request->params['named']['user'])) {
@@ -34,16 +37,15 @@ class BlogsController extends BlogsAppController {
 			)
 		));
 		$this->set('page_title_for_layout', $blog['Blog']['title']);
-		$this->set('blog',$blog);
+		$this->set(compact('blog'));
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
 			$this->paginate['conditions']['BlogPost.status'] = 'published';
 			$this->paginate['conditions']['BlogPost.published <'] = date('Y-m-d h:i:s');
-			$this->paginate['limit'] = 15;
+			$this->paginate['limit'] = 5;
 			$this->paginate['order']['BlogPost.created'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
-			$blogPosts = $this->paginate('BlogPost');
-			$this->set('blogPosts', $blogPosts);
+			$this->set('blogPosts', $this->paginate('BlogPost'));
 		} else {
 			$this->Session->setFlash('Unable to find blog');
 			$this->render(false);
@@ -54,7 +56,10 @@ class BlogsController extends BlogsAppController {
 		$this->Blog->recursive = 0;
 		$this->set('displayName', 'title');
 		$this->set('displayDescription', '');
-		$this->set('blogs', $this->paginate());
+		$this->set('blogs', $blogs = $this->paginate());
+        if (count($blogs)) {
+            $this->redirect(array('action' => 'view', $blogs[0]['Blog']['id']));
+        }
 	}
 	
 	public function my() {
@@ -84,4 +89,3 @@ class BlogsController extends BlogsAppController {
 		$this->__delete('Blog', $id);
 	}
 }
-?>
