@@ -68,7 +68,7 @@ class BlogPost extends BlogsAppModel {
  * 
  * @return bool
  */
-	public function beforeSave() {
+	public function beforeSave($options = array()) {
 		if (isset($this->data['BlogPost']['published']) && empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d');
 		}
@@ -116,7 +116,7 @@ class BlogPost extends BlogsAppModel {
 	public function add($data) {
 		$postData['BlogPost'] = $data['BlogPost']; // so that we can save extra fields in the HABTM relationship
 		if ($this->save($postData)) {
-			# this is how the categories data should look when coming in.
+			// this is how the categories data should look when coming in.
 			if (isset($data['Category']['Category'][0])) {
 				$categorized = array('BlogPost' => array('id' => array($this->id)));
 				foreach ($data['Category']['Category'] as $catId) {
@@ -148,4 +148,3 @@ class BlogPost extends BlogsAppModel {
 			);
 	}
 }
-?>
