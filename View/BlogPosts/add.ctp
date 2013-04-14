@@ -1,11 +1,10 @@
 <div id="blogPosts-add" class="blogPosts add form">
 <?php echo $this->Form->create('BlogPost');?>
-      <h2><?php echo $page_title_for_layout; ?></h2>
 	<fieldset>
     <?php
 	echo $this->Form->hidden('BlogPost.blog_id', array('value' => $blogId));
 	echo $this->Form->input('BlogPost.title', array('label' => __('Post Title', true)));
-	echo $this->Form->input('BlogPost.text', array('label' => '', 'type' => 'richtext', 'ckeSettings' => array('buttons' => array('Bold','Italic','Underline', 'Format', 'FontSize','TextColor','BGColor','-','NumberedList','BulletedList','Blockquote','JustifyLeft','JustifyCenter','JustifyRight', '-', 'Link','Unlink', '-', 'Image', '-', 'Source')))); ?>
+	echo $this->Form->input('BlogPost.text', array('label' => '', 'type' => 'richtext')); ?>
 	</fieldset>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
