@@ -5,6 +5,15 @@ class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
 	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
+        
+ /**
+  * Acts as
+  * 
+  * @var array
+  */
+    public $actsAs = array(
+        'Alias'
+		);
 	
 	public $validate = array(
 		'title' => array(
@@ -114,16 +123,16 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function add($data) {
-		$postData['BlogPost'] = $data['BlogPost']; // so that we can save extra fields in the HABTM relationship
-		if ($this->save($postData)) {
+		$categoryData['Category'] =  $data['Category'];
+		if ($this->save($data)) {
 			// this is how the categories data should look when coming in.
-			if (isset($data['Category']['Category'][0])) {
+			if (isset($categoryData['Category']['Category'][0])) {
 				$categorized = array('BlogPost' => array('id' => array($this->id)));
-				foreach ($data['Category']['Category'] as $catId) {
+				foreach ($categoryData['Category']['Category'] as $catId) {
 					$categorized['Category']['id'][] = $catId;
 				}
 				if ($this->Category->categorized($categorized, 'BlogPost')) {
-					# do nothing, the return is at the bottom of this if
+					// do nothing, the return is at the bottom of this if
 				} else {
 					throw new Exception(__d('blogs', 'Blog post category save failed.'));
 				}

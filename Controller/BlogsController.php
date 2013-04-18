@@ -45,6 +45,7 @@ class BlogsController extends BlogsAppController {
 			$this->paginate['limit'] = 5;
 			$this->paginate['order']['BlogPost.created'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
+			$this->paginate['contain'][] = 'Alias';
 			$this->set('blogPosts', $this->paginate('BlogPost'));
 		} else {
 			$this->Session->setFlash('Unable to find blog');

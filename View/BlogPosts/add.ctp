@@ -8,6 +8,7 @@
 	</fieldset>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
+			<?php echo $this->Element('forms/alias', array('formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/')); // must have the alias behavior attached to work ?>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
 			<?php echo $this->Form->input('BlogPost.published', array('default' => date('Y-m-d h:i:s'))); ?>
 	</fieldset>
