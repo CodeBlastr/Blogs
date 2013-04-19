@@ -42,6 +42,7 @@ $this->set('context_menu', array('menus' => array(
 		'heading' => 'Blog',
 		'items' => array(
 			$this->Html->link(__('Add Post'), array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'add', $blog['Blog']['id'])),
+			$this->Html->link(__('Edit'), array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'edit', $blog['Blog']['id'])),
 			)
 		)
 	))); ?>

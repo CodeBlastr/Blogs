@@ -10,7 +10,7 @@ class BlogsController extends BlogsAppController {
  * 
  * @todo make this rss function available to all views and indexes automatically by just using the .rss or .xml extension
  */
-	public function view($id=null) {
+	public function view($id = null) {
 		if ($this->RequestHandler->isRss() ) {
 			$this->RequestHandler->respondAs('xml');
 			$blogPosts = $this->Blog->BlogPost->find('all', array(
@@ -62,7 +62,56 @@ class BlogsController extends BlogsAppController {
             $this->redirect(array('action' => 'view', $blogs[0]['Blog']['id']));
         }
 	}
+
+/**
+ * add method
+ * 
+ * @return void
+ */
+	public function add() {
+		if (!empty($this->request->data)) {
+			if ($this->Blog->save($this->request->data)) {
+				$this->redirect(array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'view', $this->Blog->id));
+			}
+		}
+	}
 	
+/**
+ * edit method
+ * 
+ * @todo make this rss function available to all views and indexes automatically by just using the .rss or .xml extension
+ */
+	public function edit($id = null) {
+		$this->Blog->id = $id;
+		if (!$this->Blog->exists()) {
+			throw new NotFoundException(__('Invalid blog'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Blog->save($this->request->data)) {
+				$this->Session->setFlash('Blog updated');
+            	$this->redirect(array('action' => 'view', $this->request->data['Blog']['id']));	
+			}
+		}
+		$this->request->data = $this->Blog->find('first',array(
+			'conditions' => array(
+				'Blog.id' => $id,
+			)
+		));
+	}
+	
+/**
+ * delete method
+ * 
+ */
+	public function delete($id = null) {
+		$this->__delete('Blog', $id);
+	}
+
+/**
+ * my method
+ * 
+ * @return void
+ */
 	public function my() {
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
@@ -76,17 +125,5 @@ class BlogsController extends BlogsAppController {
 			$this->Session->setFlash('You do not have a blog.');
 			$this->render(false);
 		}
-	}
-
-	public function add() {
-		if (!empty($this->request->data)) {
-			if ($this->Blog->save($this->request->data)) {
-				$this->redirect(array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'view', $this->Blog->id));
-			}
-		}
-	}
-	
-	public function delete($id = null) {
-		$this->__delete('Blog', $id);
 	}
 }
