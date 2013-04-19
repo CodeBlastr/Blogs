@@ -1,5 +1,5 @@
 <div id="blogPosts-add" class="blogPosts add form">
-<?php echo $this->Form->create('BlogPost');?>
+<?php echo $this->Form->create('BlogPost', array('type' => 'file'));?>
 	<fieldset>
     <?php
 	echo $this->Form->hidden('BlogPost.blog_id', array('value' => $blogId));
@@ -21,6 +21,10 @@
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Excerpt');?></legend>
 			<?php echo $this->Form->input('BlogPost.introduction'); ?>
+	</fieldset>
+	<fieldset>
+		<legend class="toggleClick"><?php echo __('Featured Images'); ?></legend>
+			<?php echo $this->Form->input('GalleryImage.filename', array('type' => 'file')); ?>
 	</fieldset>
     <?php if (in_array('Categories', CakePlugin::loaded())) { ?>	
 	<fieldset>

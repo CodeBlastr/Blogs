@@ -161,6 +161,8 @@ class BlogPostsController extends BlogsAppController {
  * @return void
  */
     public function delete($id = null) {
+    	debug($_SERVER);
+		break;
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}

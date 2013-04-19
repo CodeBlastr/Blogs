@@ -12,7 +12,8 @@ class BlogPost extends BlogsAppModel {
   * @var array
   */
     public $actsAs = array(
-        'Alias'
+        'Alias', 
+        'Galleries.Mediable'
 		);
 	
 	public $validate = array(
