@@ -137,10 +137,7 @@ class BlogPostsController extends BlogsAppController {
 	}
 	
 	public function latest() {
-		#$this->Project = ClassRegistry::init('Projects.Project'); #TODO: why is this necessary here?
-		
 		if(isset($this->request->params['named']['blog_id']) && isset($this->request->params['named']['limit'])) {
-
 			  $options = array(
 			  	'conditions' => array(
 					'BlogPost.blog_id' => $this->request->params['named']['blog_id']
@@ -148,9 +145,7 @@ class BlogPostsController extends BlogsAppController {
 				'order' => 'created DESC',
 				'limit' => $this->request->params['named']['limit']
 			  );
-
 			  return $this->BlogPost->find('all', $options);
-
 		}
 	}
 
@@ -161,8 +156,6 @@ class BlogPostsController extends BlogsAppController {
  * @return void
  */
     public function delete($id = null) {
-    	debug($_SERVER);
-		break;
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
