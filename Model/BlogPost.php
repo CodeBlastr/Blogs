@@ -4,6 +4,7 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
+	
 	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
         
  /**
