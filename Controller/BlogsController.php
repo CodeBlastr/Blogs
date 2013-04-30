@@ -31,15 +31,13 @@ class BlogsController extends BlogsAppController {
 			));
 			$this->redirect(array($blog['Blog']['id']));
 		}
-		$this->Blog->recursive = 1;
+		//$this->Blog->recursive = 1;
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
 				'Blog.id' => $id,
 			)
 		));
-		debug($blog);
-		debug($this->Blog->BlogPost->find('all'));
-		break;
+		
 		$this->set('page_title_for_layout', $blog['Blog']['title']);
 		$this->set(compact('blog'));
 		if(isset($blog['Blog'])) {
