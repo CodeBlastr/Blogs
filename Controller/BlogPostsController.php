@@ -36,7 +36,6 @@ class BlogPostsController extends BlogsAppController {
 				$this->redirect($this->referer());
 		    }
 		}
-
 		$blogPost = $this->BlogPost->find('first',array(
 			'conditions' => array(
 				'BlogPost.id' => $id,
@@ -61,6 +60,9 @@ class BlogPostsController extends BlogsAppController {
 		));
 		$this->set('blogPost',$blogPost);
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
+		if (in_array('Categories', CakePlugin::loaded())) {
+			$this->set('categories', $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost')));
+		} 
 	}
 	
 /**
@@ -82,7 +84,7 @@ class BlogPostsController extends BlogsAppController {
 		}
 		$authors = $this->BlogPost->Author->find('list');
 		if (in_array('Categories', CakePlugin::loaded())) {
-			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+			$categories = $this->BlogPost->Category->find('list', array('conditions' => array('Category.model' => 'BlogPost')));
 		} else {
 			$categories = null;
 		}
