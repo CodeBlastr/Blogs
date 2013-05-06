@@ -68,6 +68,7 @@ class BlogPost extends BlogsAppModel {
     			'conditions' => 'Categorized.model = "BlogPost"',
 	    		// 'unique' => true,
 		        );
+				$this->uses = array('Categories.Category');
 		}
     	parent::__construct($id, $table, $ds);		
     }
