@@ -2,9 +2,17 @@
 class BlogPostsController extends BlogsAppController {
 
 	public $allowedActions = array('latest');
+	
+/**
+ * Uses
+ * 
+ */
 	public $uses = 'Blogs.BlogPost';
 	
-	
+/**
+ * Constructor
+ * 
+ */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
 		if (in_array('Recaptcha', CakePlugin::loaded())) { 
@@ -15,6 +23,10 @@ class BlogPostsController extends BlogsAppController {
 		}
 	}
 
+/**
+ * Before Filter
+ * 
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->passedArgs['comment_view_type'] = 'threaded';
@@ -62,7 +74,7 @@ class BlogPostsController extends BlogsAppController {
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
 		if (in_array('Categories', CakePlugin::loaded())) {
 			$this->set('categories', $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost')));
-		} 
+		}
 	}
 	
 /**

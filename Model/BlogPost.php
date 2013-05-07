@@ -47,6 +47,10 @@ class BlogPost extends BlogsAppModel {
 			),
 		);
 	
+/**
+ * Constructor
+ * 
+ */
 	public function __construct($id = false, $table = null, $ds = null) {
 		if (in_array('Tags', CakePlugin::loaded())) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);

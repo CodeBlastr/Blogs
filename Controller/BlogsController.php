@@ -56,6 +56,10 @@ class BlogsController extends BlogsAppController {
 		}
 	}
 	
+/**
+ * Index method
+ * 
+ */
 	public function index() {
 		$this->Blog->recursive = 0;
 		$this->set('displayName', 'title');
