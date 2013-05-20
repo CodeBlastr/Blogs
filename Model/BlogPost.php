@@ -62,6 +62,7 @@ class BlogPost extends BlogsAppModel {
             	'className' => 'Categories.Category',
 	       		'joinTable' => 'categorized',
 	            'foreignKey' => 'foreign_key',
+	            'with' => 'Categorized',
 	            'associationForeignKey' => 'category_id',
     			'conditions' => 'Categorized.model = "BlogPost"',
 	    		// 'unique' => true,
