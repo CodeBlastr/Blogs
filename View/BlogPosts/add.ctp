@@ -1,5 +1,5 @@
 <div id="blogPosts-add" class="blogPosts add form">
-<?php echo $this->Form->create('BlogPost');?>
+<?php echo $this->Form->create('BlogPost', array('type' => 'file'));?>
 	<fieldset>
     <?php
 	echo $this->Form->hidden('BlogPost.blog_id', array('value' => $blogId));
@@ -22,10 +22,31 @@
  		<legend class="toggleClick"><?php echo __('Excerpt');?></legend>
 			<?php echo $this->Form->input('BlogPost.introduction'); ?>
 	</fieldset>
+	<fieldset>
+		<legend class="toggleClick"><?php echo __('Featured Image'); ?></legend>
+			<?php echo $this->Form->input('GalleryImage.filename', array('type' => 'file')); ?>
+	</fieldset>
     <?php if (in_array('Categories', CakePlugin::loaded())) { ?>	
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Categories');?></legend>
-			<?php echo $this->Form->input('Category', array('multiple' => 'checkbox', 'label' => 'Which categories? ('.$this->Html->link('add', array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'tree', 'model' => 'BlogPost')).' / '.$this->Html->link('edit', array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'tree', 'model' => 'BlogPost')).' categoies)')); ?>
+					
+			<?php echo $this->Form->input('Category', 
+							array('multiple' => 'checkbox', 
+								'label' => 'Which categories? ('.
+								$this->Js->link('add', 
+									array('plugin' => 'categories', 
+										'controller' => 'categories', 
+										'action' => 'add',
+									),
+									 array('id' => 'addCategoryLink',
+								    	  'update' => '#site-modal', 
+								          'method' => 'post', 
+								          'data' => array('model' => 'BlogPost', 'modal' => true),
+										  'success' => '$("#site-modal").modal("show");',
+							  )) . ')'));
+				  
+				  echo $this->Js->writeBuffer();
+			?>
 	</fieldset>
     <?php } ?>
     <?php if (in_array('Tags', CakePlugin::loaded())) { ?>

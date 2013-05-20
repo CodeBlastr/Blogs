@@ -4,6 +4,7 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
+	
 	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
         
  /**
@@ -12,7 +13,8 @@ class BlogPost extends BlogsAppModel {
   * @var array
   */
     public $actsAs = array(
-        'Alias'
+        'Alias', 
+        'Galleries.Mediable'
 		);
 	
 	public $validate = array(
@@ -45,6 +47,10 @@ class BlogPost extends BlogsAppModel {
 			),
 		);
 	
+/**
+ * Constructor
+ * 
+ */
 	public function __construct($id = false, $table = null, $ds = null) {
 		if (in_array('Tags', CakePlugin::loaded())) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
@@ -67,6 +73,7 @@ class BlogPost extends BlogsAppModel {
     			'conditions' => 'Categorized.model = "BlogPost"',
 	    		// 'unique' => true,
 		        );
+				$this->uses = array('Categories.Category');
 		}
     	parent::__construct($id, $table, $ds);		
     }
@@ -79,7 +86,7 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function beforeSave($options = array()) {
-		if (isset($this->data['BlogPost']['published']) && empty($this->data['BlogPost']['published'])) {
+		if (isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d');
 		}
 		return true;

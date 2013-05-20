@@ -2,9 +2,16 @@
 App::uses('BlogsAppModel', 'Blogs.Model');
 
 class Blog extends BlogsAppModel {
+	
+	public $name = "Blog";	
+		
 	public $hasMany = array(
 		'BlogPost' => array(
-			'className' => 'Blogs.BlogPost'
+			'className' => 'Blogs.BlogPost',
+			'foreignKey' => 'blog_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
 		),
 	); 
 	

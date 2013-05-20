@@ -31,13 +31,16 @@ class BlogsController extends BlogsAppController {
 			));
 			$this->redirect(array($blog['Blog']['id']));
 		}
+		//$this->Blog->recursive = 1;
 		$blog = $this->Blog->find('first',array(
 			'conditions' => array(
 				'Blog.id' => $id,
 			)
 		));
+		
 		$this->set('page_title_for_layout', $blog['Blog']['title']);
 		$this->set(compact('blog'));
+		
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
 			$this->paginate['conditions']['BlogPost.status'] = 'published';
@@ -53,6 +56,10 @@ class BlogsController extends BlogsAppController {
 		}
 	}
 	
+/**
+ * Index method
+ * 
+ */
 	public function index() {
 		$this->Blog->recursive = 0;
 		$this->set('displayName', 'title');

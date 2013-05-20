@@ -2,9 +2,17 @@
 class BlogPostsController extends BlogsAppController {
 
 	public $allowedActions = array('latest');
+	
+/**
+ * Uses
+ * 
+ */
 	public $uses = 'Blogs.BlogPost';
 	
-	
+/**
+ * Constructor
+ * 
+ */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
 		if (in_array('Recaptcha', CakePlugin::loaded())) { 
@@ -15,6 +23,10 @@ class BlogPostsController extends BlogsAppController {
 		}
 	}
 
+/**
+ * Before Filter
+ * 
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->passedArgs['comment_view_type'] = 'threaded';
@@ -36,7 +48,6 @@ class BlogPostsController extends BlogsAppController {
 				$this->redirect($this->referer());
 		    }
 		}
-
 		$blogPost = $this->BlogPost->find('first',array(
 			'conditions' => array(
 				'BlogPost.id' => $id,
@@ -61,6 +72,9 @@ class BlogPostsController extends BlogsAppController {
 		));
 		$this->set('blogPost',$blogPost);
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
+		if (in_array('Categories', CakePlugin::loaded())) {
+			$this->set('categories', $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost')));
+		}
 	}
 	
 /**
@@ -82,7 +96,7 @@ class BlogPostsController extends BlogsAppController {
 		}
 		$authors = $this->BlogPost->Author->find('list');
 		if (in_array('Categories', CakePlugin::loaded())) {
-			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
+			$categories = $this->BlogPost->Category->find('list', array('conditions' => array('Category.model' => 'BlogPost')));
 		} else {
 			$categories = null;
 		}
@@ -137,10 +151,7 @@ class BlogPostsController extends BlogsAppController {
 	}
 	
 	public function latest() {
-		#$this->Project = ClassRegistry::init('Projects.Project'); #TODO: why is this necessary here?
-		
 		if(isset($this->request->params['named']['blog_id']) && isset($this->request->params['named']['limit'])) {
-
 			  $options = array(
 			  	'conditions' => array(
 					'BlogPost.blog_id' => $this->request->params['named']['blog_id']
@@ -148,9 +159,7 @@ class BlogPostsController extends BlogsAppController {
 				'order' => 'created DESC',
 				'limit' => $this->request->params['named']['limit']
 			  );
-
 			  return $this->BlogPost->find('all', $options);
-
 		}
 	}
 
