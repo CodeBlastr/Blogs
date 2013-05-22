@@ -72,7 +72,6 @@ class BlogPost extends BlogsAppModel {
     			'conditions' => 'Categorized.model = "BlogPost"',
 	    		// 'unique' => true,
 		        );
-				$this->uses = array('Categories.Category');
 		}
     	parent::__construct($id, $table, $ds);		
     }
@@ -131,6 +130,7 @@ class BlogPost extends BlogsAppModel {
  */
 	public function add($data) {
 		$categoryData['Category'] =  $data['Category'];
+		unset($data['Category']);//quick fix to remove categories, causing to be saved twice
 		if ($this->save($data)) {
 			// this is how the categories data should look when coming in.
 			if (isset($categoryData['Category']['Category'][0])) {

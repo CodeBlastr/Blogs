@@ -21,6 +21,9 @@ class BlogPostsController extends BlogsAppController {
 		if (in_array('Comments', CakePlugin::loaded())) { 
 			$this->components['Comments.Comments'] = array('userModelClass' => 'User'); 
 		}
+		if (in_array('Categories', CakePlugin::loaded())) { 
+			$this->uses[] = 'Categories.Category';
+		}
 	}
 
 /**
@@ -53,7 +56,8 @@ class BlogPostsController extends BlogsAppController {
 				'BlogPost.id' => $id,
 				),
 			'contain' => array(
-				'Author'
+				'Author',
+				'Category'
 				),
 			));
 		
@@ -62,7 +66,6 @@ class BlogPostsController extends BlogsAppController {
 			'order' => array(
 			),
 		);
-
 
 		$this->paginate = array('Comment' => array(
 			'order' => array('Comment.created' => 'desc'),
@@ -73,7 +76,7 @@ class BlogPostsController extends BlogsAppController {
 		$this->set('blogPost',$blogPost);
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
 		if (in_array('Categories', CakePlugin::loaded())) {
-			$this->set('categories', $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost')));
+			
 		}
 	}
 	
@@ -118,7 +121,9 @@ class BlogPostsController extends BlogsAppController {
 
 		if(!empty($this->request->data)) {
 			try {
+				
 				$this->BlogPost->add($this->request->data);
+				
 				$this->Session->setFlash('Blog Post Saved');
 				$this->redirect(array('action' => 'view', $this->BlogPost->id));
 			} catch (Exception $e) {
@@ -131,7 +136,7 @@ class BlogPostsController extends BlogsAppController {
 				'BlogPost.id' => $id
 				),
 			'contain' => array(
-				'Category',
+				'Author',
 				),
 			));
 		$this->request->data = $blogPost;
