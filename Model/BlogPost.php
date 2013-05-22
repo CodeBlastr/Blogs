@@ -64,11 +64,12 @@ class BlogPost extends BlogsAppModel {
 		        );
 		}
 		if (in_array('Categories', CakePlugin::loaded())) {
+			//break;	
 			$this->hasAndBelongsToMany['Category'] = array(
             	'className' => 'Categories.Category',
 	       		'joinTable' => 'categorized',
 	            'foreignKey' => 'foreign_key',
-	            'with' => 'Categorized',
+	            'with' => 'Categories.Categorized',
 	            'associationForeignKey' => 'category_id',
     			'conditions' => 'Categorized.model = "BlogPost"',
 	    		// 'unique' => true,

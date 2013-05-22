@@ -73,11 +73,9 @@ class BlogPostsController extends BlogsAppController {
 			'limit' => 5,
 			'conditions'=>array('model' => 'Blogs.BlogPost')
 		));
+		//$this->set('categories', $blogPost['Categories']);
 		$this->set('blogPost',$blogPost);
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
-		if (in_array('Categories', CakePlugin::loaded())) {
-			
-		}
 	}
 	
 /**
