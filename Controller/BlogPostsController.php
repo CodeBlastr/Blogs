@@ -57,7 +57,8 @@ class BlogPostsController extends BlogsAppController {
 				),
 			'contain' => array(
 				'Author',
-				'Category'
+				'Category.name',
+				'Category.id'
 				),
 			));
 		
@@ -73,7 +74,8 @@ class BlogPostsController extends BlogsAppController {
 			'limit' => 5,
 			'conditions'=>array('model' => 'Blogs.BlogPost')
 		));
-		//$this->set('categories', $blogPost['Categories']);
+		
+		$this->set('categories', $blogPost['Category']);
 		$this->set('blogPost',$blogPost);
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
 	}
