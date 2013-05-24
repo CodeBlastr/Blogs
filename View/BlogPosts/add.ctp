@@ -8,7 +8,9 @@
 	</fieldset>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
-			<?php echo $this->Element('forms/alias', array('formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/')); // must have the alias behavior attached to work ?>
+			<?php 
+			     //echo $this->Element('forms/alias', array('formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/')); // must have the alias behavior attached to work 
+			?>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
 			<?php echo $this->Form->input('BlogPost.published', array('default' => date('Y-m-d h:i:s'))); ?>
 	</fieldset>
@@ -28,26 +30,25 @@
 	</fieldset>
     <?php if (in_array('Categories', CakePlugin::loaded())) { ?>	
 	<fieldset>
- 		<legend class="toggleClick"><?php echo __('Categories');?></legend>
-					
-			<?php echo $this->Form->input('Category', 
-							array('multiple' => 'checkbox', 
-								'label' => 'Which categories? ('.
-								$this->Js->link('add', 
-									array('plugin' => 'categories', 
-										'controller' => 'categories', 
-										'action' => 'add',
-									),
-									 array('id' => 'addCategoryLink',
-								    	  'update' => '#site-modal', 
-								          'method' => 'post', 
-								          'data' => array('model' => 'BlogPost', 'modal' => true),
-										  'success' => '$("#site-modal").modal("show");',
-							  )) . ')'));
-				  
-				  echo $this->Js->writeBuffer();
-			?>
-	</fieldset>
+        <legend class="toggleClick"><?php echo __('Categories');?></legend>
+            <?php echo $this->Form->input('Category', 
+                            array('multiple' => 'checkbox', 
+                                'label' => 'Which categories? ('.
+                                $this->Js->link('add', 
+                                    array('plugin' => 'categories', 
+                                        'controller' => 'categories', 
+                                        'action' => 'add',
+                                    ),
+                                     array('id' => 'addCategoryLink',
+                                          'update' => '#site-modal', 
+                                          'method' => 'post', 
+                                          'data' => array('model' => 'BlogPost', 'modal' => true),
+                                          'success' => '$("#site-modal").modal("show");',
+                              )) . ')'));
+                  
+                  echo $this->Js->writeBuffer();
+            ?>
+    </fieldset>
     <?php } ?>
     <?php if (in_array('Tags', CakePlugin::loaded())) { ?>
 	<fieldset>
