@@ -1,5 +1,6 @@
 <?php
 echo __('<div class="blogPosts view" id="blogPost_%s">', $blogPost['BlogPost']['id']);
+echo $this->Html->tag('h1', $blogPost['BlogPost']['title']);
 echo __('<div class="blog-post-sub-header well"> By %s | Added %s</div>', $blogPost['Author']['first_name'], ZuhaInflector::datify($blogPost['BlogPost']['published'])); 
 echo __('<div class="blog-post-body">%s %s</div>', $this->Element('Galleries.thumb', array('model' => 'BlogPost', 'foreignKey' => $blogPost['BlogPost']['id'], 'showEmpty' => false)), $blogPost['BlogPost']['text']); 
 
