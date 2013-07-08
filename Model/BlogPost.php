@@ -13,7 +13,7 @@ class BlogPost extends BlogsAppModel {
   * @var array
   */
     public $actsAs = array(
-        'Alias', 
+        'Optimizable', 
         'Galleries.Mediable'
 		);
 	

@@ -120,10 +120,10 @@ class BlogPostsController extends BlogsAppController {
 		}
 
 		if(!empty($this->request->data)) {
+			//debug($this->request->data);
+			//break;
 			try {
-				
 				$this->BlogPost->add($this->request->data);
-				
 				$this->Session->setFlash('Blog Post Saved');
 				$this->redirect(array('action' => 'view', $this->BlogPost->id));
 			} catch (Exception $e) {
@@ -140,7 +140,7 @@ class BlogPostsController extends BlogsAppController {
 				),
 			));
 		$this->request->data = $blogPost;
-		# _viewVars
+
 		if (in_array('Categories', CakePlugin::loaded())) {
 			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
 			$this->set(compact('categories'));
