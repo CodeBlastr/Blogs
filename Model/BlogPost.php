@@ -86,10 +86,13 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function beforeSave($options = array()) {
-		if (isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
+		
+		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d');
+			debug('Yay!');
 		}
-		return true;
+		
+		return parent::beforeSave($options);
 	}
 	
 	

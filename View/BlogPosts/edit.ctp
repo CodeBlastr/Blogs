@@ -15,7 +15,7 @@
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.published', array('type' => 'text', 'class' => 'datetimepicker', 'value' => date('Y-m-d h:i:s'))); ?>
+			<?php echo $this->Form->input('BlogPost.published', array('default' => date('Y-m-d h:i:s'))); ?>
 			<?php echo $this->Element('forms/alias', array('formId' => '#BlogPostEditForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/')); // must have the alias behavior attached to work ?>
 	</fieldset>
 	<?php /* move these fields to aliases table <fieldset>

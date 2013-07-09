@@ -161,7 +161,7 @@ class BlogPostsController extends BlogsAppController {
 			  	'conditions' => array(
 					'BlogPost.blog_id' => $this->request->params['named']['blog_id']
 				),
-				'order' => 'created DESC',
+				'order' => 'published DESC',
 				'limit' => $this->request->params['named']['limit']
 			  );
 			  return $this->BlogPost->find('all', $options);
