@@ -123,7 +123,7 @@ class BlogPostsController extends BlogsAppController {
 			//debug($this->request->data);
 			//break;
 			try {
-				$this->BlogPost->save($this->request->data);
+				$this->BlogPost->add($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
 				$this->redirect(array('action' => 'view', $this->BlogPost->id));
 			} catch (Exception $e) {
