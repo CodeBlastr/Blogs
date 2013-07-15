@@ -13,7 +13,7 @@ class BlogPost extends BlogsAppModel {
   * @var array
   */
     public $actsAs = array(
-        'Alias', 
+        'Optimizable',
         'Galleries.Mediable'
 		);
 	
@@ -86,10 +86,13 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function beforeSave($options = array()) {
-		if (isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
+		
+		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d');
+			debug('Yay!');
 		}
-		return true;
+		
+		return parent::beforeSave($options);
 	}
 	
 	
@@ -131,7 +134,7 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function add($data) {
-		$categoryData['Category'] =  $data['Category'];
+		$categoryData['Category'] = $data['Category'];
 		unset($data['Category']);//quick fix to remove categories, causing to be saved twice
 		if ($this->save($data)) {
 			// this is how the categories data should look when coming in.

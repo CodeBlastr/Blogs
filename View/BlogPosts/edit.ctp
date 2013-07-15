@@ -1,6 +1,10 @@
 <div id="blogPosts-add" class="blogPosts add form">
+<div id="pageTitle">
+	<h1 class="page-title"><?php echo $this->request->data['BlogPost']['title']; ?></h1>
+</div>
+<div class="clearfix"></div>
+
 <?php echo $this->Form->create('BlogPost');?>
-      <h2><?php echo $page_title_for_layout; ?></h2>
 	<fieldset>
     <?php
 	echo $this->Form->input('BlogPost.id');
@@ -11,10 +15,8 @@
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Publish Settings');?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.published', array('value' => date('Y-m-d h:i'))); ?>
-			<?php 
-			     echo $this->Element('forms/alias', array('formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/')); // must have the alias behavior attached to work 
-			?>
+			<?php echo $this->Form->input('BlogPost.published', array('default' => date('Y-m-d h:i:s'))); ?>
+			<?php echo $this->Element('forms/alias', array('formId' => '#BlogPostEditForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/')); // must have the alias behavior attached to work ?>
 	</fieldset>
 	<?php /* move these fields to aliases table <fieldset>
  		<legend class="toggleClick"><?php echo __('Search Optimization Meta');?></legend>
@@ -64,6 +66,26 @@
 	</fieldset>
 <?php echo $this->Form->end('Edit');?>
 </div>
+
+<style>
+	.content-wrap h1 small {
+		letter-spacing: normal;
+	}
+</style>
+
+<script>
+	$(function() {
+		$('#BlogPostTitle').blur(function(e){
+			var oldTitle = $('.pageTitle').html();
+			var newTitle = $(this).val();
+			
+			if(oldTitle != newTitle) {
+				$('.pageTitle').html(newTitle);
+			}
+		});
+	});
+</script>
+
 <?php
 $this->set('context_menu', array('menus' => array(
 	array(

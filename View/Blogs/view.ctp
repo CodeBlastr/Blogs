@@ -6,8 +6,7 @@ echo $this->Html->meta(
 			'type' => 'rss',
 			'inline' => false
 			)
-		);
-?>
+		); ?>
 <div id="blogs-blogs-view" class="blogs view">
 	<div id="blog-posts">
 		<?php
