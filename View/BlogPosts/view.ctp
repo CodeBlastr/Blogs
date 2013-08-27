@@ -1,13 +1,27 @@
+<div class="blogPosts view" id="blogPost_<?php echo $blogPost['BlogPost']['id']; ?>">
+	<h1>
+		<?php echo $blogPost['BlogPost']['title']; ?>
+	</h1>
+	<div class="blog-post-sub-header well">
+		<p>
+			By <?php echo $blogPost['Author']['first_name']; ?> | Added <?php echo ZuhaInflector::datify($blogPost['BlogPost']['published']); ?>
+		</p>
+	</div>
+	<div class="blog-post-body media">
+		<?php echo $this->Element('Galleries.thumb', array('thumbClass' => 'pull-left', 'model' => 'BlogPost', 'foreignKey' => $blogPost['BlogPost']['id'], 'showEmpty' => false)); ?>
+		<div class="media-body">
+			<?php echo $blogPost['BlogPost']['text']; ?>
+		</div>
+	</div>
+	
 <?php
-echo __('<div class="blogPosts view" id="blogPost_%s">', $blogPost['BlogPost']['id']);
-echo $this->Html->tag('h1', $blogPost['BlogPost']['title']);
-echo __('<div class="blog-post-sub-header well"> By %s | Added %s</div>', $blogPost['Author']['first_name'], ZuhaInflector::datify($blogPost['BlogPost']['published'])); 
-echo __('<div class="blog-post-body">%s %s</div>', $this->Element('Galleries.thumb', array('model' => 'BlogPost', 'foreignKey' => $blogPost['BlogPost']['id'], 'showEmpty' => false)), $blogPost['BlogPost']['text']); 
-
-if ($blogPost['BlogPost']['allow_comments'] == 1 && in_array('Comments', CakePlugin::loaded())) {
+if ($blogPost['BlogPost']['allow_comments'] == 1 && in_array('Comments', CakePlugin::loaded())) :
 	__('<a name="comments"></a><div id="post-comments">%s %s</div>', $this->CommentWidget->options(array('allowAnonymousComment' => false)), $this->CommentWidget->display());
-}
-echo __('</div>'); 
+endif; ?>
+
+</div>
+
+<?php
 $this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog',
