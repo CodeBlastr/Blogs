@@ -104,17 +104,17 @@ class BlogPost extends BlogsAppModel {
  */
 	public function afterSave($created) {		
 		// use twitter behavior to update status about new post
-		if ($created && in_array('Twitter', CakePlugin::loaded())) {
+		if ($created && in_array('Twitter', CakePlugin::loaded()) && in_array('Connections', CakePlugin::loaded())) {
 			$body = $this->data['BlogPost']['title'] . ' http://'.$_SERVER['HTTP_HOST'].'/blogs/blog_posts/view/' . $this->id; 
 			
-			App::uses('UserConnect', 'Users.Model');
-			$UserConnect = new UserConnect;
-			$twitter = $UserConnect->find('first', array(
+			App::uses('Connect', 'Connections.Model');
+			$Connect = new Connect;
+			$twitter = $Connect->find('first', array(
 				'conditions' => array(
-					'UserConnect.user_id' => CakeSession::read('Auth.User.id'),
+					'Connect.user_id' => CakeSession::read('Auth.User.id'),
 					),
 				));
-			$connect = unserialize($twitter['UserConnect']['value']);
+			$connect = unserialize($twitter['Connect']['value']);
 			
 			if (!empty($connect['oauth_token']) && !empty($connect['oauth_token_secret'])) {
 				$this->Behaviors->load('Twitter.Twitter', array(
