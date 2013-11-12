@@ -1,5 +1,5 @@
 <div id="blogPosts-add" class="blogPosts add form">
-<?php echo $this->Form->create('BlogPost', array('type' => 'file'));?>
+<?php echo $this->Form->create('BlogPost', array('type' => 'file', 'novalidate'));?>
 	<fieldset>
     <?php
 	echo $this->Form->hidden('BlogPost.blog_id', array('value' => $blogId));
@@ -64,7 +64,8 @@
  		<legend class="toggleClick"><?php echo __('Author');?></legend>
 			<?php echo $this->Form->input('BlogPost.author_id', array('value' => $this->Session->read('Auth.User.id'))); ?>
 	</fieldset>
-<?php echo $this->Form->end('Add');?>
+	<?php echo $this->Form->submit('Add');?>
+<?php echo $this->Form->end();?>
 </div>
 <?php
 $this->set('context_menu', array('menus' => array(
