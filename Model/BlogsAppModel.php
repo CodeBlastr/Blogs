@@ -25,7 +25,6 @@ class BlogsAppModel extends AppModel {
 				)
 			);
 		}
-		
  		return $data;
  	}
 

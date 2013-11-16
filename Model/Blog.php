@@ -25,4 +25,3 @@ class Blog extends BlogsAppModel {
 		),
 	);
 }
-?>
