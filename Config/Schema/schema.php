@@ -3,14 +3,6 @@ class BlogsSchema extends CakeSchema {
 
 	public $renames = array();
 
-	public function __construct($options = array()) {
-		parent::__construct();
-		$this->renames = array(
-			'blog_posts' => array('publish_date' => 'published'),
-			'blogs' => array('public' => 'is_public')
-			);
-	}
-
 	public function before($event = array()) {
 	    $db = ConnectionManager::getDataSource('default');
 	    $db->cacheSources = false;
@@ -61,6 +53,8 @@ class BlogsSchema extends CakeSchema {
 	
 /**
  * Install Data Method
+ * 
+ * @param string $event
  */
 	protected function _installData($event) {
 		if (isset($event['create'])) {
@@ -88,4 +82,5 @@ class BlogsSchema extends CakeSchema {
 			}
 		}
 	}
+
 }
