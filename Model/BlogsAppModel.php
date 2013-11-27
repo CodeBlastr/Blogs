@@ -13,7 +13,7 @@ class BlogsAppModel extends AppModel {
 		$Blog = new Blog;
 		$blog = $Blog->find('first', array('contain' => array('BlogPost')));
 		if (!empty($blog)) {
-	 		// link to users index, login, register, and my
+	 		// link to blog homepage, and first blog post
 			$data['WebpageMenuItem']['item_url'] = '/blogs/blogs/view/'.$blog['Blog']['id'];
 			$data['WebpageMenuItem']['item_text'] = $blog['Blog']['title'];
 			$data['WebpageMenuItem']['name'] = $blog['Blog']['title'];
