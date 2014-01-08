@@ -1,6 +1,11 @@
 <?php
 App::uses('BlogsAppModel', 'Blogs.Model');
-
+/**
+ *@property Blog Blog
+ *@property AppUser Author
+ *@property Category Category
+ *@property Tag Tag
+ */
 class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
