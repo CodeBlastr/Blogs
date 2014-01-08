@@ -14,7 +14,8 @@ class BlogPost extends BlogsAppModel {
   */
     public $actsAs = array(
         'Optimizable',
-        'Galleries.Mediable'
+        'Galleries.Mediable',
+		'Users.Usable'
 		);
 	
 	public $validate = array(
