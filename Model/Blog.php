@@ -24,4 +24,14 @@ class Blog extends BlogsAppModel {
 			'order' => ''
 		),
 	);
+
+
+
+
+
+	public function findBlogIdByOwnerId($ownerId){
+		$result = $this->find('first',array('conditions'=>
+		array('Blog.owner_id'=>$ownerId)));
+		return isset($result['Blog']['id']) ? $result['Blog']['id']  : '';
+	}
 }

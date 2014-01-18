@@ -174,4 +174,5 @@ class BlogPost extends BlogsAppModel {
 			'pending' => 'Pending Approval',
 			);
 	}
+
 }

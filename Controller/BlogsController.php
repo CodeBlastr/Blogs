@@ -1,4 +1,8 @@
 <?php
+/**
+ * Class BlogsController
+ * @property Blog Blog
+ */
 class BlogsController extends BlogsAppController {
 	
 	public $uses = 'Blogs.Blog';
@@ -40,7 +44,7 @@ class BlogsController extends BlogsAppController {
 		
 		$this->set('page_title_for_layout', $blog['Blog']['title']);
 		$this->set(compact('blog'));
-		
+
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
 			$this->paginate['conditions']['BlogPost.status'] = 'published';
