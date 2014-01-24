@@ -23,18 +23,7 @@ class BlogPost extends BlogsAppModel {
 		'Users.Usable'
 		);
 	
-	public $validate = array(
-		'title' => array(
-			'rule' => array('between',8,128),
-			'required' => true,
-			'message' => 'Title must be between 8 and 128 characters.'
-		),
-		'text' => array(
-			'rule' => array('minLength',8),
-			'required' => true,
-			'message' => 'Content must be longer then 8 characters.'
-		)
-	);
+	public $validate = array();
 
 	public $belongsTo = array(
 		'Author' => array(
