@@ -147,8 +147,7 @@ class AppBlogPostsController extends BlogsAppController {
 		}
 
 		if(!empty($this->request->data)) {
-			//debug($this->request->data);
-			//break;
+
 			try {
 				$this->BlogPost->add($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
