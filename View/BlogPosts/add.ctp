@@ -22,11 +22,11 @@
 	</fieldset> */ ?>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Excerpt');?></legend>
-			<?php echo $this->Form->input('BlogPost.introduction'); ?>
+		<?php echo $this->Form->input('BlogPost.introduction'); ?>
 	</fieldset>
 	<fieldset>
 		<legend class="toggleClick"><?php echo __('Featured Image'); ?></legend>
-			<?php echo $this->Form->input('GalleryImage.filename', array('type' => 'file')); ?>
+		<?php echo $this->Form->input('GalleryImage.filename', array('type' => 'file')); ?>
 	</fieldset>
     <?php if (in_array('Categories', CakePlugin::loaded())) { ?>	
 	<fieldset>
