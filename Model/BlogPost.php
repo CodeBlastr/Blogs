@@ -47,6 +47,9 @@ class BlogPost extends BlogsAppModel {
  * 
  */
 	public function __construct($id = false, $table = null, $ds = null) {
+		if(CakePlugin::loaded('Media')) {
+			$this->actsAs[] = 'Media.MediaAttachable';
+		}
 		if (in_array('Tags', CakePlugin::loaded())) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
 			$this->hasAndBelongsToMany['Tag'] = array(
