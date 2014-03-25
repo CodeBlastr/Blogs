@@ -21,6 +21,7 @@
 		<p>There are currently no blog posts</p>
 	<?php endif; ?>
 	</div>
+	<?php echo $this->Element('paging'); ?>
 </div>
 
 <?php

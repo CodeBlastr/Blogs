@@ -33,7 +33,7 @@
 		 </fieldset> */ ?>
 	<fieldset>
  		<legend class="toggleClick"><?php echo __('Excerpt'); ?></legend>
-			<?php echo $this->Form->input('BlogPost.introduction'); ?>
+		<?php echo $this->Form->input('BlogPost.introduction'); ?>
 	</fieldset>
     <?php if (in_array('Categories', CakePlugin::loaded())) : ?>		
 	<fieldset>
