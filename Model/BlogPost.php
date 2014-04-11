@@ -9,12 +9,12 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
-	
+
 	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
-        
+
  /**
   * Acts as
-  * 
+  *
   * @var array
   */
     public $actsAs = array(
@@ -22,7 +22,7 @@ class BlogPost extends BlogsAppModel {
         'Galleries.Mediable',
 		'Users.Usable'
 		);
-	
+
 	public $validate = array();
 
 	public $belongsTo = array(
@@ -32,7 +32,7 @@ class BlogPost extends BlogsAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-			), 
+			),
 		'Blog' => array(
 			'className' => 'Blogs.Blog',
 			'foreignKey' => 'blog_id',
@@ -41,10 +41,10 @@ class BlogPost extends BlogsAppModel {
 			'order' => ''
 			),
 		);
-	
+
 /**
  * Constructor
- * 
+ *
  */
 	public function __construct($id = false, $table = null, $ds = null) {
 		if(CakePlugin::loaded('Media')) {
@@ -62,7 +62,7 @@ class BlogPost extends BlogsAppModel {
 		        );
 		}
 		if (in_array('Categories', CakePlugin::loaded())) {
-			//break;	
+			//break;
 			$this->hasAndBelongsToMany['Category'] = array(
             	'className' => 'Categories.Category',
 	       		'joinTable' => 'categorized',
@@ -73,38 +73,38 @@ class BlogPost extends BlogsAppModel {
 	    		// 'unique' => true,
 		        );
 		}
-    	parent::__construct($id, $table, $ds);		
+    	parent::__construct($id, $table, $ds);
     }
-	
-	
-	
+
+
+
 /**
  * Before save
- * 
+ *
  * @return bool
  */
 	public function beforeSave($options = array()) {
-		
+
 		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d');
 			debug('Yay!');
 		}
-		
+
 		return parent::beforeSave($options);
 	}
-	
-	
+
+
 /**
  * After save
- * 
+ *
  * @return null
  * @todo		Not the best way to handle this.  Would be cool if it were a callback or something.
  */
-	public function afterSave($created) {		
+	public function afterSave($created) {
 		// use twitter behavior to update status about new post
 		if ($created && in_array('Twitter', CakePlugin::loaded()) && in_array('Connections', CakePlugin::loaded())) {
-			$body = $this->data['BlogPost']['title'] . ' http://'.$_SERVER['HTTP_HOST'].'/blogs/blog_posts/view/' . $this->id; 
-			
+			$body = $this->data['BlogPost']['title'] . ' http://'.$_SERVER['HTTP_HOST'].'/blogs/blog_posts/view/' . $this->id;
+
 			App::uses('Connect', 'Connections.Model');
 			$Connect = new Connect;
 			$twitter = $Connect->find('first', array(
@@ -113,21 +113,21 @@ class BlogPost extends BlogsAppModel {
 					),
 				));
 			$connect = unserialize($twitter['Connect']['value']);
-			
+
 			if (!empty($connect['oauth_token']) && !empty($connect['oauth_token_secret'])) {
 				$this->Behaviors->load('Twitter.Twitter', array(
-					'oauthToken' => $connect['oauth_token'], 
+					'oauthToken' => $connect['oauth_token'],
 					'oauthTokenSecret' => $connect['oauth_token_secret'],
 					));
 				$this->updateStatus($body);
-			}				
+			}
 		}
 	}
-	
-	
+
+
 /**
  * Add method
- * 
+ *
  * @param array
  * @return bool
  */
@@ -148,11 +148,11 @@ class BlogPost extends BlogsAppModel {
 				}
 				return true;
 			}
-		} else {	
+		} else {
 			throw new Exception(__d('blogs', 'Blog post save failed.'));
 		}
 	}
-	
+
 /**
  * The publish status of a post
  *
