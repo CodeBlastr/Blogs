@@ -50,7 +50,7 @@ class BlogPost extends BlogsAppModel {
 		if(CakePlugin::loaded('Media')) {
 			$this->actsAs[] = 'Media.MediaAttachable';
 		}
-		if (in_array('Tags', CakePlugin::loaded())) {
+		if (CakePlugin::loaded('Tags')) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
 			$this->hasAndBelongsToMany['Tag'] = array(
             	'className' => 'Tags.Tag',
@@ -61,8 +61,7 @@ class BlogPost extends BlogsAppModel {
 	    		// 'unique' => true,
 		        );
 		}
-		if (in_array('Categories', CakePlugin::loaded())) {
-			//break;
+		if (CakePlugin::loaded('Categories')) {
 			$this->hasAndBelongsToMany['Category'] = array(
             	'className' => 'Categories.Category',
 	       		'joinTable' => 'categorized',
@@ -87,7 +86,6 @@ class BlogPost extends BlogsAppModel {
 
 		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d');
-			debug('Yay!');
 		}
 
 		return parent::beforeSave($options);
