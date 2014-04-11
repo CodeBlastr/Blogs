@@ -52,14 +52,6 @@ class BlogPost extends BlogsAppModel {
 		}
 		if (CakePlugin::loaded('Tags')) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
-			$this->hasAndBelongsToMany['Tag'] = array(
-            	'className' => 'Tags.Tag',
-	       		'joinTable' => 'tagged',
-	            'foreignKey' => 'foreign_key',
-	            'associationForeignKey' => 'tag_id',
-	    		'conditions' => 'Tagged.model = "BlogPost"',
-	    		// 'unique' => true,
-		        );
 		}
 		if (CakePlugin::loaded('Categories')) {
 			$this->hasAndBelongsToMany['Category'] = array(
