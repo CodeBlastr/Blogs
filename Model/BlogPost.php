@@ -67,7 +67,19 @@ class BlogPost extends BlogsAppModel {
     	parent::__construct($id, $table, $ds);
     }
 
-
+/**
+ * The publish status of a post
+ *
+ * @param null
+ * @return array
+ */
+	public function statusTypes() {
+		return array(
+			'published' => 'Published',
+			'draft' => 'Draft',
+			'pending' => 'Pending Approval',
+			);
+	}
 
 /**
  * Before save
@@ -144,17 +156,27 @@ class BlogPost extends BlogsAppModel {
 	}
 
 /**
- * The publish status of a post
  *
- * @param null
+ * @param int $groupId
  * @return array
  */
-	public function statusTypes() {
-		return array(
-			'published' => 'Published',
-			'draft' => 'Draft',
-			'pending' => 'Pending Approval',
-			);
+	public function getGroupsPosts($groupId) {
+		// find posts that belong to this group
+		App::uses('Used','Users.Model');
+		$Used = new Used();
+		$groupsPosts = $Used->find('all', array(
+			'conditions' => array(
+				'Used.model' => 'BlogPost',
+				'Used.user_group_id' => $groupId
+			)
+		));
+		$postIds = Hash::extract($groupsPosts, "{n}.Used.foreign_key");
+		$posts = $this->find('all', array(
+			'conditions' => array('BlogPost.id' => $postIds),
+			'contain' => array('Author'),
+			'nocheck' => true // disable Usable::beforeFind, for this call
+		));
+		return $posts;
 	}
 
 }
