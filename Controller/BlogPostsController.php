@@ -202,9 +202,6 @@ class AppBlogPostsController extends BlogsAppController {
  * @throws MethodNotAllowedException
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
 		$this->BlogPost->id = $id;
 		if (!$this->BlogPost->exists()) {
 			throw new NotFoundException(__('Invalid post'));
