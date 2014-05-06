@@ -103,8 +103,8 @@ class AppBlogPostsController extends BlogsAppController {
 			throw new NotFoundException(__('Invalid blog.'));
 		}
 		if(!empty($this->request->data)) {
-
 			try {
+				unset($this->request->data['BlogPost']['id']);
 				$this->BlogPost->add($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
 				$this->redirect(array('action' => 'view', $this->BlogPost->id));
@@ -148,7 +148,6 @@ class AppBlogPostsController extends BlogsAppController {
 		}
 
 		if(!empty($this->request->data)) {
-
 			try {
 				$this->BlogPost->add($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
@@ -157,36 +156,42 @@ class AppBlogPostsController extends BlogsAppController {
 				$this->Session->setFlash($e->getMessage());
 			}
 		}
-
-		$blogPost = $this->BlogPost->find('first',array(
-			'conditions' => array(
-				'BlogPost.id' => $id
-				),
-			'contain' => array(
-				'Author',
-				),
-			));
-		$this->request->data = $blogPost;
-
+		
+		$contain[] = 'Author';
 		if (in_array('Categories', CakePlugin::loaded())) {
 			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
 			$this->set(compact('categories'));
+			$contain[] = 'Category';
 		}
 		if (in_array('Tags', CakePlugin::loaded())) {
 			$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
 			$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
 		}
+
+		$blogPost = $this->BlogPost->find('first',array(
+			'conditions' => array(
+				'BlogPost.id' => $id
+				),
+			'contain' => $contain,
+			));
+		
+		$this->request->data = $blogPost;
+		$this->set('selectedCategories', Set::extract('/id', $this->request->data['Category']));
 		$authors = $this->BlogPost->Author->find('list');
 		$statuses = $this->BlogPost->statusTypes();
 		$page_title_for_layout = __('Edit %s', $blogPost['BlogPost']['title']);
 		$this->set(compact('authors', 'statuses', 'page_title_for_layout'));
 	}
 
+/**
+ * Latest method (should be removed in favor of the helper / element combo)
+ */
 	public function latest() {
 		if(isset($this->request->params['named']['blog_id']) && isset($this->request->params['named']['limit'])) {
 			  $options = array(
 			  	'conditions' => array(
-					'BlogPost.blog_id' => $this->request->params['named']['blog_id']
+					'BlogPost.blog_id' => $this->request->params['named']['blog_id'],
+					'BlogPost.published <' => date('Y-m-d h:i:s')
 				),
 				'order' => 'published DESC',
 				'limit' => $this->request->params['named']['limit']

@@ -48,7 +48,7 @@ class BlogsController extends BlogsAppController {
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
 			$this->paginate['conditions']['BlogPost.status'] = 'published';
-			$this->paginate['conditions']['BlogPost.published <'] = date('Y-m-d h:i:s');
+			$this->paginate['conditions']['BlogPost.published <'] = !empty($this->request->query['preview']) ? $this->request->query['preview'] : date('Y-m-d h:i:s');
 			$this->paginate['limit'] = 5;
 			$this->paginate['order']['BlogPost.created'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
@@ -65,13 +65,61 @@ class BlogsController extends BlogsAppController {
  * 
  */
 	public function index() {
-		$this->Blog->recursive = 0;
-		$this->set('displayName', 'title');
-		$this->set('displayDescription', '');
+		$this->paginate['contain'][] = 'Owner';
+		$this->paginate['contain'][] = 'BlogPost';
 		$this->set('blogs', $blogs = $this->paginate());
         if (count($blogs)) {
             $this->redirect(array('action' => 'view', $blogs[0]['Blog']['id']));
         }
+	}
+
+/**
+ * Dashboard method
+ */
+ 	public function dashboard($blogId = null) {
+		$this->paginate['contain'][] = 'Owner';
+		$this->paginate['contain']['BlogPost']['order']['published'] = 'DESC';
+		$this->Blog->BlogPost->bindModel(array('hasOne' => array('Alias' => array('foreignKey' => 'value'))));
+		$this->paginate['contain']['BlogPost'][] = 'Alias';
+		if (!empty($blogId)) {
+			$this->paginate['conditions']['Blog.id'] = $blogId;
+		} else {
+			$this->paginate['contain']['BlogPost']['limit'] = '5';
+		}
+		$this->set('blogs', $this->request->data = $this->paginate());
+		$this->set(compact('blogId'));
+		$this->set('page_title_for_layout', 'Blogs Dashboard');
+		$this->set('title_for_layout', 'Blogs Dashboard');
+ 	}
+
+/**
+ * Categories method
+ */
+	public function categories() {
+		$this->Blog->recursive = 0;
+		$this->paginate['contain'][] = 'Category';
+		if(isset($this->request->query['categories'])) {
+			$categoriesParam = explode(';', rawurldecode($this->request->query['categories']));
+			$this->set('selected_categories', json_encode($categoriesParam));
+			$joins = array(
+		           array('table'=>'categorized', 
+		                 'alias' => 'Categorized',
+		                 'type'=>'left',
+		                 'conditions'=> array(
+		                 	'Categorized.foreign_key = BlogPost.id'
+		           )),
+		           array('table'=>'categories', 
+		                 'alias' => 'Category',
+		                 'type'=>'left',
+		                 'conditions'=> array(
+		                 	'Category.id = Categorized.category_id'
+				   ))
+		         );
+			$this->paginate['joins'] = $joins;
+			$this->paginate['conditions']['Category.name'] = $categoriesParam;
+		}
+		$this->set('blogPosts', $blogPosts = $this->paginate('BlogPost'));
+		$this->view = 'view';
 	}
 
 /**
