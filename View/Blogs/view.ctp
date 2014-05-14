@@ -1,6 +1,6 @@
 <div id="blogs-blogs-view" class="blogs view">
-	<?php if(count($blogPosts)) : ?>
 	<div id="blog-posts">
+	<?php if(count($blogPosts)) : ?>
 		<?php foreach($blogPosts as $blogPost) : ?>
 		<div class="blogPost" id="post_<?php $blogPost['BlogPost']['id']; ?>">
 			<?php $viewLink = (!empty($blogPost['Alias']['name'])) ? __('/%s', $blogPost['Alias']['name']) : array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'view', $blogPost['BlogPost']['id']); ?>
