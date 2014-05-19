@@ -3,10 +3,9 @@
 <?php $posts = $BlogPostHelper->find('all', array('limit' => 3)); ?>
 <div class="blog-posts-find">
 <?php foreach ($posts as $post) : ?>
-	<hr>
 	<div class="media clearfix"> 
 		<a class="pull-left" href="<?php echo $this->Html->url(array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'view', $post['BlogPost']['id'])); ?>"> 
-			<?php echo $this->element('Galleries.thumb', array('model' => 'BlogPost', 'foreignKey' => $post['BlogPost']['id'], 'thumbClass' => 'media-object img-thumbnail')); ?>
+			<?php echo $this->Media->display($post['Media'][0]); ?>
 		</a>
 		<div class="media-body">
 			
@@ -16,5 +15,6 @@
 			</p>
 		</div>
 	</div>
+	<hr />
 <?php endforeach; ?>
 </div>
