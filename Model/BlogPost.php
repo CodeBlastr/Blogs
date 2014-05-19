@@ -89,7 +89,7 @@ class BlogPost extends BlogsAppModel {
 	public function beforeSave($options = array()) {
 
 		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
-			$this->data['BlogPost']['published'] = date('Y-m-d');
+			$this->data['BlogPost']['published'] = date('Y-m-d h:i:s');
 		}
 
 		return parent::beforeSave($options);
@@ -174,6 +174,7 @@ class BlogPost extends BlogsAppModel {
 		$posts = $this->find('all', array(
 			'conditions' => array('BlogPost.id' => $postIds),
 			'contain' => array('Author'),
+			'order' => array('BlogPost.published' => 'DESC'),
 			'nocheck' => true // disable Usable::beforeFind, for this call
 		));
 		return $posts;
