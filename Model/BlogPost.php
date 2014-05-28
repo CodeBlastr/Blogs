@@ -54,6 +54,7 @@ class BlogPost extends BlogsAppModel {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
 		}
 		if (CakePlugin::loaded('Categories')) {
+			$this->actsAs[] = 'Categories.Categorizable';
 			$this->hasAndBelongsToMany['Category'] = array(
             	'className' => 'Categories.Category',
 	       		'joinTable' => 'categorized',
@@ -87,11 +88,9 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function beforeSave($options = array()) {
-
 		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
 			$this->data['BlogPost']['published'] = date('Y-m-d h:i:s');
 		}
-
 		return parent::beforeSave($options);
 	}
 
@@ -134,25 +133,7 @@ class BlogPost extends BlogsAppModel {
  * @return bool
  */
 	public function add($data) {
-		$categoryData['Category'] = $data['Category'];
-		unset($data['Category']);//quick fix to remove categories, causing to be saved twice
-		if ($this->save($data)) {
-			// this is how the categories data should look when coming in.
-			if (isset($categoryData['Category']['Category'][0])) {
-				$categorized = array('BlogPost' => array('id' => array($this->id)));
-				foreach ($categoryData['Category']['Category'] as $catId) {
-					$categorized['Category']['id'][] = $catId;
-				}
-				if ($this->Category->categorized($categorized, 'BlogPost')) {
-					// do nothing, the return is at the bottom of this if
-				} else {
-					throw new Exception(__d('blogs', 'Blog post category save failed.'));
-				}
-				return true;
-			}
-		} else {
-			throw new Exception(__d('blogs', 'Blog post save failed.'));
-		}
+		return $this->save($data);
 	}
 
 /**
