@@ -105,7 +105,7 @@ class AppBlogPostsController extends BlogsAppController {
 		if(!empty($this->request->data)) {
 			try {
 				unset($this->request->data['BlogPost']['id']);
-				$this->BlogPost->add($this->request->data);
+				$this->BlogPost->save($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
 				$this->redirect(array('action' => 'view', $this->BlogPost->id));
 			} catch (Exception $e) {
@@ -149,7 +149,7 @@ class AppBlogPostsController extends BlogsAppController {
 
 		if(!empty($this->request->data)) {
 			try {
-				$this->BlogPost->add($this->request->data);
+				$this->BlogPost->save($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
 				$this->redirect(array('action' => 'view', $this->BlogPost->id));
 			} catch (Exception $e) {
