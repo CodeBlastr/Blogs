@@ -1,30 +1,23 @@
 <?php
+
 App::uses('BlogsAppModel', 'Blogs.Model');
+
 /**
- *@property Blog Blog
- *@property AppUser Author
- *@property Category Category
- *@property Tag Tag
+ * @property Blog Blog
+ * @property AppUser Author
+ * @property Category Category
+ * @property Tag Tag
  */
 class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
-
 	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
-
- /**
-  * Acts as
-  *
-  * @var array
-  */
-    public $actsAs = array(
-        'Optimizable',
-        'Galleries.Mediable',
+	public $actsAs = array(
+		'Optimizable',
+		'Galleries.Mediable',
 		'Users.Usable'
-		);
-
+	);
 	public $validate = array();
-
 	public $belongsTo = array(
 		'Author' => array(
 			'className' => 'Users.User',
@@ -32,22 +25,18 @@ class BlogPost extends BlogsAppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-			),
+		),
 		'Blog' => array(
 			'className' => 'Blogs.Blog',
 			'foreignKey' => 'blog_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-			),
-		);
+		),
+	);
 
-/**
- * Constructor
- *
- */
 	public function __construct($id = false, $table = null, $ds = null) {
-		if(CakePlugin::loaded('Media')) {
+		if (CakePlugin::loaded('Media')) {
 			$this->actsAs[] = 'Media.MediaAttachable';
 		}
 		if (CakePlugin::loaded('Tags')) {
@@ -56,22 +45,21 @@ class BlogPost extends BlogsAppModel {
 		if (CakePlugin::loaded('Categories')) {
 			$this->actsAs[] = 'Categories.Categorizable';
 			$this->hasAndBelongsToMany['Category'] = array(
-            	'className' => 'Categories.Category',
-	       		'joinTable' => 'categorized',
-	            'foreignKey' => 'foreign_key',
-	            'with' => 'Categories.Categorized',
-	            'associationForeignKey' => 'category_id',
-    			'conditions' => 'Categorized.model = "BlogPost"',
-	    		// 'unique' => true,
-		        );
+				'className' => 'Categories.Category',
+				'joinTable' => 'categorized',
+				'foreignKey' => 'foreign_key',
+				'with' => 'Categories.Categorized',
+				'associationForeignKey' => 'category_id',
+				'conditions' => 'Categorized.model = "BlogPost"',
+					// 'unique' => true,
+			);
 		}
-    	parent::__construct($id, $table, $ds);
-    }
+		parent::__construct($id, $table, $ds);
+	}
 
 /**
  * The publish status of a post
  *
- * @param null
  * @return array
  */
 	public function statusTypes() {
@@ -79,12 +67,10 @@ class BlogPost extends BlogsAppModel {
 			'published' => 'Published',
 			'draft' => 'Draft',
 			'pending' => 'Pending Approval',
-			);
+		);
 	}
 
 /**
- * Before save
- *
  * @return bool
  */
 	public function beforeSave($options = array()) {
@@ -94,41 +80,34 @@ class BlogPost extends BlogsAppModel {
 		return parent::beforeSave($options);
 	}
 
-
 /**
- * After save
- *
- * @return null
  * @todo		Not the best way to handle this.  Would be cool if it were a callback or something.
  */
 	public function afterSave($created) {
 		// use twitter behavior to update status about new post
-		if ($created && in_array('Twitter', CakePlugin::loaded()) && in_array('Connections', CakePlugin::loaded())) {
-			$body = $this->data['BlogPost']['title'] . ' http://'.$_SERVER['HTTP_HOST'].'/blogs/blog_posts/view/' . $this->id;
+		if ($created && CakePlugin::loaded('Twitter') && CakePlugin::loaded('Connections')) {
+			$body = $this->data['BlogPost']['title'] . ' http://' . $_SERVER['HTTP_HOST'] . '/blogs/blog_posts/view/' . $this->id;
 
 			App::uses('Connect', 'Connections.Model');
 			$Connect = new Connect;
 			$twitter = $Connect->find('first', array(
 				'conditions' => array(
 					'Connect.user_id' => CakeSession::read('Auth.User.id'),
-					),
-				));
+				),
+			));
 			$connect = unserialize($twitter['Connect']['value']);
 
 			if (!empty($connect['oauth_token']) && !empty($connect['oauth_token_secret'])) {
 				$this->Behaviors->load('Twitter.Twitter', array(
 					'oauthToken' => $connect['oauth_token'],
 					'oauthTokenSecret' => $connect['oauth_token_secret'],
-					));
+				));
 				$this->updateStatus($body);
 			}
 		}
 	}
 
-
 /**
- * Add method
- *
  * @param array
  * @return bool
  */
@@ -137,13 +116,12 @@ class BlogPost extends BlogsAppModel {
 	}
 
 /**
- *
  * @param int $groupId
  * @return array
  */
 	public function getGroupsPosts($groupId) {
 		// find posts that belong to this group
-		App::uses('Used','Users.Model');
+		App::uses('Used', 'Users.Model');
 		$Used = new Used();
 		$groupsPosts = $Used->find('all', array(
 			'conditions' => array(
