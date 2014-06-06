@@ -63,6 +63,7 @@ class AppBlogPostsController extends BlogsAppController {
 				'BlogPost.id' => $id,
 				),
 			'contain' => array(
+				'Blog',
 				'Author',
 				'Category.name',
 				'Category.id'

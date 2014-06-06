@@ -22,6 +22,13 @@ endif; ?>
 </div>
 
 <?php
+// set the contextual breadcrumb items
+$this->set('context_crumbs', array('crumbs' => array(
+	$this->Html->link($blogPost['Blog']['title'], '/blogs/blogs/view/' . $blogPost['Blog']['id']),
+	$blogPost['BlogPost']['title'],
+)));
+
+// set the contextual menu items
 $this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog',
@@ -31,4 +38,4 @@ $this->set('context_menu', array('menus' => array(
 			$this->Html->link(__('Edit', true), array('controller' => 'blog_posts', 'action' => 'edit', $blogPost['BlogPost']['id']), array('class' => 'edit')),
 			)
 		)
-	))); ?>
+	)));
