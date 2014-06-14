@@ -160,5 +160,22 @@ class BlogPost extends BlogsAppModel {
 		));
 		return $posts;
 	}
+	
+/**
+ * Sitemap method
+ * Called to from the main sitemap controller
+ * 
+ * @return array
+ */
+	public function sitemap() {
+		$pages = $this->find('all', array('conditions' => array('BlogPost.published <' => date('Y-m-d')), 'order' => array('BlogPost.published' => 'DESC')));
+		for ($i=0; $i < count($pages); $i++) {
+			$sitemap[$i]['url']['loc'] = 'http://' . $_SERVER['HTTP_HOST'] . $pages[$i]['BlogPost']['_alias'];
+			$sitemap[$i]['url']['lastmod'] = $pages[$i]['BlogPost']['modified'] > $pages[$i]['BlogPost']['published'] ? date('Y-m-d', strtotime($pages[$i]['BlogPost']['published'])) : date('Y-m-d', strtotime($pages[$i]['BlogPost']['modified']));
+			$sitemap[$i]['url']['changefreq'] = 'monthly';
+			$sitemap[$i]['url']['priority'] = '0.5';
+		}
+		return array_values($sitemap);
+	}
 
 }
