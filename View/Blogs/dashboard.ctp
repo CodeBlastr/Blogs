@@ -4,10 +4,20 @@
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
-					<th><?php echo $blog['Blog']['title']; ?> <?php echo empty($blogId) ? $this->Html->link('<span class="glyphicon glyphicon-hand-right">&nbsp;</span>', array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'dashboard', $blog['Blog']['id']), array('escape' => false)) : null; ?></th>
-					<th class="text-center">Publish Date</th>
-					<th class="text-center">Alias</th>
-					<th></th>
+					<th>
+						<?php echo $blog['Blog']['title']; ?> 
+						<?php echo empty($blogId) ? $this->Html->link('<span class="glyphicon glyphicon-hand-right">&nbsp;</span>', array('plugin' => 'blogs', 'controller' => 'blogs', 'action' => 'dashboard', $blog['Blog']['id']), array('escape' => false)) : null; ?>
+						<?php echo $this->Html->link('Create Post', array('admin' => true, 'plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'add', $blog['Blog']['id']), array('class' => 'btn btn-xs btn-success')); ?>
+					</th>
+					<th class="text-center">
+						Publish Date
+					</th>
+					<th class="text-center">
+						Alias
+					</th>
+					<th class="text-center">
+						Actions
+					</th>
 				</tr>
 			</thead>
 			<tbody>
