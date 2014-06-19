@@ -19,7 +19,7 @@ class BlogsController extends BlogsAppController {
 			$this->RequestHandler->respondAs('xml');
 			$blogPosts = $this->Blog->BlogPost->find('all', array(
 				'limit' => 20,
-				'order' => 'BlogPost.created DESC',
+				'order' => 'BlogPost.published DESC',
 				'conditions' => array(
 					'BlogPost.status' => 'published',
 					'BlogPost.blog_id' => $id
@@ -50,7 +50,7 @@ class BlogsController extends BlogsAppController {
 			$this->paginate['conditions']['BlogPost.status'] = 'published';
 			$this->paginate['conditions']['BlogPost.published <'] = !empty($this->request->query['preview']) ? $this->request->query['preview'] : date('Y-m-d h:i:s');
 			$this->paginate['limit'] = 5;
-			$this->paginate['order']['BlogPost.created'] = 'DESC';
+			$this->paginate['order']['BlogPost.published'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
 			$this->paginate['contain'][] = 'Alias';
 			$this->set('blogPosts', $this->paginate('BlogPost'));
