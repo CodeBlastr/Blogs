@@ -188,7 +188,8 @@ class AppBlogPostsController extends BlogsAppController {
 			$options = array(
 				'conditions' => array(
 					'BlogPost.blog_id' => $this->request->params['named']['blog_id'],
-					'BlogPost.published <' => date('Y-m-d h:i:s')
+					'BlogPost.published <' => date('Y-m-d h:i:s'),
+					'BlogPost.status' => 'published'
 				),
 				'order' => 'published DESC',
 				'limit' => $this->request->params['named']['limit']
