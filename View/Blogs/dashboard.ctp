@@ -28,7 +28,7 @@
 						<small class="muted"><?php echo $this->Text->truncate(strip_tags($post['text']), 25); ?></small>
 					</td>
 					<td class="text-center">
-						<span class="label <?php echo $post['published'] < date('Y-m-d') ? 'label-success' : 'label-warning'; ?>"><?php echo ZuhaInflector::datify($post['published']); ?></span>
+						<span class="label <?php echo $post['published'] < date('Y-m-d H:i:s') ? 'label-success' : 'label-warning'; ?>"><?php echo ZuhaInflector::datify($post['published']); ?></span>
 					</td>
 					<td class="text-center">
 						<?php echo !empty($post['Alias']['name']) ? $this->Html->link(__('<span class="label label-primary">%s</span>', $this->Text->truncate($post['Alias']['name'], 20)), '/' . $post['Alias']['name'], array('escape' => false)) : null; ?>

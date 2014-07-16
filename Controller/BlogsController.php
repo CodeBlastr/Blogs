@@ -48,7 +48,7 @@ class BlogsController extends BlogsAppController {
 		if(isset($blog['Blog'])) {
 			$this->paginate['conditions']['BlogPost.blog_id'] = $id;
 			$this->paginate['conditions']['BlogPost.status'] = 'published';
-			$this->paginate['conditions']['BlogPost.published <'] = !empty($this->request->query['preview']) ? $this->request->query['preview'] : date('Y-m-d h:i:s');
+			$this->paginate['conditions']['BlogPost.published <'] = !empty($this->request->query['preview']) ? $this->request->query['preview'] : date('Y-m-d H:i:s');
 			$this->paginate['limit'] = 5;
 			$this->paginate['order']['BlogPost.published'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
