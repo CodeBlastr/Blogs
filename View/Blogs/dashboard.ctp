@@ -35,6 +35,7 @@
 					</td>
 					<td class="text-center">
 						<?php echo $this->Html->link('<span class="label label-default">Edit</span>', array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'edit', $post['id']), array('escape' => false)); ?>
+						<?php echo $this->Html->link('<span class="label label-danger">Delete</span>', array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'delete', $post['id']), array('escape' => false), 'Are you sure?'); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
