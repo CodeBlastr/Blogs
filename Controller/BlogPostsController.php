@@ -231,10 +231,10 @@ class AppBlogPostsController extends BlogsAppController {
 		}
 		if ($this->BlogPost->delete()) {
 			$this->Session->setFlash(__('Post deleted'));
-			$this->redirect(array('controller' => 'blogs', 'action' => 'index'));
+			$this->redirect(array('controller' => 'blogs', 'action' => 'dashboard'));
 		}
 		$this->Session->setFlash(__('Post was not deleted'));
-		$this->redirect(array('controller' => 'blogs', 'action' => 'index'));
+		$this->redirect(array('controller' => 'blogs', 'action' => 'dashboard'));
 	}
 
 }
