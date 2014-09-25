@@ -90,6 +90,26 @@ class AppBlogPostsController extends BlogsAppController {
 	}
 
 /**
+ * Index method
+ * 
+ * @todo This needs to be updated to work with multi-blogs, by somehow grouping search results into blogs
+ */
+ 	public function search($blogId = null) {
+		$this->paginate['contain'][] = 'Owner';
+		$this->paginate['contain'][] = 'Blog';
+		$this->paginate['contain']['BlogPost']['order']['published'] = 'DESC';
+		$this->BlogPost->bindModel(array('hasOne' => array('Alias' => array('foreignKey' => 'value'))));
+		$this->paginate['contain'][] = 'Alias';
+		if (!empty($blogId)) {
+			$this->paginate['conditions']['BlogPost.blog_id'] = $blogId;
+		}
+		$this->set('blogPosts', $this->request->data = $this->paginate());
+		$this->set(compact('blogId'));
+		$this->set('page_title_for_layout', 'Posts Search');
+		$this->set('title_for_layout', 'Posts Search');
+ 	}
+
+/**
  * Add method
  */
 	public function add($blogId = null) {

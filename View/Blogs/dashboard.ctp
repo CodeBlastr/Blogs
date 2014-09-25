@@ -52,6 +52,21 @@ $this->set('context_crumbs', array('crumbs' => array(
 	!empty($blogId) ? $blogs[0]['Blog']['title'] . ' Dashboard' : null,
 )));
 
+// set contextual search options
+$this->set('forms_search', array(
+    'url' => '/admin/blogs/blog_posts/search',
+	'inputs' => array(
+		array(
+			'name' => 'contains:title',
+			'options' => array(
+				'label' => false, 
+				'placeholder' => 'Search Posts',
+				'value' => !empty($this->request->params['named']['contains']) ? substr($this->request->params['named']['contains'], strpos($this->request->params['named']['contains'], ':') + 1) : null,
+				)
+			)
+		)
+	));
+
 // set the contextual menu items
 $this->set('context_menu', array('menus' => array(
 	array('heading' => 'Blogs',

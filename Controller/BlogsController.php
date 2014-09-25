@@ -84,7 +84,7 @@ class BlogsController extends BlogsAppController {
 		if (!empty($blogId)) {
 			$this->paginate['conditions']['Blog.id'] = $blogId;
 		} else {
-			$this->paginate['contain']['BlogPost']['limit'] = '5';
+			$this->paginate['contain']['BlogPost']['limit'] = 10;
 		}
 		$this->set('blogs', $this->request->data = $this->paginate());
 		$this->set(compact('blogId'));
