@@ -16,6 +16,7 @@
 			<legend class="toggleClick"><?php echo __('Publish Settings'); ?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
 			<?php echo $this->Form->input('BlogPost.published', array('type' => 'datetimepicker', 'label' => 'Publish Date')); ?>
+			<?php echo $this->Form->input('BlogPost.allow_comments'); ?>
 		</fieldset>
 		<fieldset>
 	        <legend class="toggleClick"><?php echo __('SEO Optimization');?></legend>
@@ -49,6 +50,7 @@
 $this->set('context_menu', array('menus' => array(array(
 	'heading' => 'Blog Posts',
 	'items' => array(
+		$this->Html->link(__('View'), array('admin' => false, 'plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'view', $this->request->data['BlogPost']['id'])),
 		$this->Html->link(__('List'), array('controller' => 'blogs', 'action' => 'index')),
 		$this->Html->link(__('Add'), array('controller' => 'blog_posts', 'action' => 'add', $this->request->data['BlogPost']['blog_id'])),
 		$this->Html->link(__('Delete'), array('controller' => 'blog_posts', 'action' => 'delete', $this->Form->value('BlogPost.id')), null, __('Are you sure you want to delete %s?', $this->Form->value('BlogPost.title')))

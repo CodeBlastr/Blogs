@@ -5,6 +5,11 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 class Blog extends BlogsAppModel {
 
 	public $name = "Blog";
+	
+	public $actsAs = array(
+		'Optimizable'
+	);
+	
 	public $hasMany = array(
 		'BlogPost' => array(
 			'className' => 'Blogs.BlogPost',
@@ -14,6 +19,7 @@ class Blog extends BlogsAppModel {
 			'order' => '',
 		),
 	);
+	
 	public $belongsTo = array(
 		'Owner' => array(
 			'className' => 'Users.User',

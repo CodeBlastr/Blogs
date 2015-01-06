@@ -72,7 +72,8 @@ $this->set('forms_search', array(
 $this->set('context_menu', array('menus' => array(
 	array('heading' => 'Blogs',
 		'items' => array(
-			 $this->Html->link(__('Add', true), array('controller' => 'blogs', 'action' => 'add'), array('class' => 'add')),
-			 )
+			$this->Html->link(__('Add'), array('controller' => 'blogs', 'action' => 'add')),
+			!empty($blogId) ? $this->Html->link(__('Edit'), array('controller' => 'blogs', 'action' => 'edit', $blogId)) : null,
+			)
 		)
 	)));

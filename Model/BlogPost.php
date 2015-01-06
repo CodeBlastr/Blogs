@@ -11,13 +11,17 @@ App::uses('BlogsAppModel', 'Blogs.Model');
 class BlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
+
 	public $fullName = "Blogs.BlogPost"; //for the sake of comments plugin
+
 	public $actsAs = array(
 		'Optimizable',
 		'Galleries.Mediable',
 		'Users.Usable'
 	);
+
 	public $validate = array();
+
 	public $belongsTo = array(
 		'Author' => array(
 			'className' => 'Users.User',
@@ -148,7 +152,7 @@ class BlogPost extends BlogsAppModel {
 	public function sitemap() {
 		$pages = $this->find('all', array('conditions' => array('BlogPost.status' => 'published', 'BlogPost.published <' => date('Y-m-d')), 'order' => array('BlogPost.published' => 'DESC')));
 		for ($i=0; $i < count($pages); $i++) {
-			$sitemap[$i]['url']['loc'] = 'http://' . $_SERVER['HTTP_HOST'] . $pages[$i]['BlogPost']['_alias'];
+			$sitemap[$i]['url']['loc'] = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $pages[$i]['BlogPost']['_alias'];
 			$sitemap[$i]['url']['lastmod'] = $pages[$i]['BlogPost']['modified'] > $pages[$i]['BlogPost']['published'] ? date('Y-m-d', strtotime($pages[$i]['BlogPost']['published'])) : date('Y-m-d', strtotime($pages[$i]['BlogPost']['modified']));
 			$sitemap[$i]['url']['changefreq'] = 'monthly';
 			$sitemap[$i]['url']['priority'] = '0.5';

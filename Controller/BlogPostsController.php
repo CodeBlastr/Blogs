@@ -87,6 +87,7 @@ class AppBlogPostsController extends BlogsAppController {
 		$this->set('blogPost', $blogPost);
 		$this->set('title_for_layout', __('%s | %s', $blogPost['BlogPost']['title'], __SYSTEM_SITE_NAME));
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
+		$this->set('description_for_layout', substr(strip_tags($blogPost['BlogPost']['text']), 0, 158));
 	}
 
 /**
