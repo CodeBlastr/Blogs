@@ -1,10 +1,15 @@
 <?php
+
 App::uses('BlogsAppModel', 'Blogs.Model');
 
 class Blog extends BlogsAppModel {
+
+	public $name = "Blog";
 	
-	public $name = "Blog";	
-		
+	public $actsAs = array(
+		'Optimizable'
+	);
+	
 	public $hasMany = array(
 		'BlogPost' => array(
 			'className' => 'Blogs.BlogPost',
@@ -13,7 +18,7 @@ class Blog extends BlogsAppModel {
 			'fields' => '',
 			'order' => '',
 		),
-	); 
+	);
 	
 	public $belongsTo = array(
 		'Owner' => array(
@@ -25,13 +30,10 @@ class Blog extends BlogsAppModel {
 		),
 	);
 
-
-
-
-
-	public function findBlogIdByOwnerId($ownerId){
-		$result = $this->find('first',array('conditions'=>
-		array('Blog.owner_id'=>$ownerId)));
-		return isset($result['Blog']['id']) ? $result['Blog']['id']  : '';
+	public function findBlogIdByOwnerId($ownerId) {
+		$result = $this->find('first', array('conditions' =>
+			array('Blog.owner_id' => $ownerId)));
+		return isset($result['Blog']['id']) ? $result['Blog']['id'] : '';
 	}
+
 }

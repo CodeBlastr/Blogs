@@ -87,7 +87,28 @@ class AppBlogPostsController extends BlogsAppController {
 		$this->set('blogPost', $blogPost);
 		$this->set('title_for_layout', __('%s | %s', $blogPost['BlogPost']['title'], __SYSTEM_SITE_NAME));
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
+		$this->set('description_for_layout', substr(strip_tags($blogPost['BlogPost']['text']), 0, 158));
 	}
+
+/**
+ * Index method
+ * 
+ * @todo This needs to be updated to work with multi-blogs, by somehow grouping search results into blogs
+ */
+ 	public function search($blogId = null) {
+		$this->paginate['contain'][] = 'Owner';
+		$this->paginate['contain'][] = 'Blog';
+		$this->paginate['contain']['BlogPost']['order']['published'] = 'DESC';
+		$this->BlogPost->bindModel(array('hasOne' => array('Alias' => array('foreignKey' => 'value'))));
+		$this->paginate['contain'][] = 'Alias';
+		if (!empty($blogId)) {
+			$this->paginate['conditions']['BlogPost.blog_id'] = $blogId;
+		}
+		$this->set('blogPosts', $this->request->data = $this->paginate());
+		$this->set(compact('blogId'));
+		$this->set('page_title_for_layout', 'Posts Search');
+		$this->set('title_for_layout', 'Posts Search');
+ 	}
 
 /**
  * Add method
@@ -188,7 +209,8 @@ class AppBlogPostsController extends BlogsAppController {
 			$options = array(
 				'conditions' => array(
 					'BlogPost.blog_id' => $this->request->params['named']['blog_id'],
-					'BlogPost.published <' => date('Y-m-d h:i:s')
+					'BlogPost.published <' => date('Y-m-d h:i:s'),
+					'BlogPost.status' => 'published'
 				),
 				'order' => 'published DESC',
 				'limit' => $this->request->params['named']['limit']
@@ -210,10 +232,10 @@ class AppBlogPostsController extends BlogsAppController {
 		}
 		if ($this->BlogPost->delete()) {
 			$this->Session->setFlash(__('Post deleted'));
-			$this->redirect(array('controller' => 'blogs', 'action' => 'index'));
+			$this->redirect(array('controller' => 'blogs', 'action' => 'dashboard'));
 		}
 		$this->Session->setFlash(__('Post was not deleted'));
-		$this->redirect(array('controller' => 'blogs', 'action' => 'index'));
+		$this->redirect(array('controller' => 'blogs', 'action' => 'dashboard'));
 	}
 
 }

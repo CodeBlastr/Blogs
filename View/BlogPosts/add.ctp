@@ -12,8 +12,14 @@
 		<fieldset>
 			<legend class="toggleClick"><?php echo __('Publish Settings'); ?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.published', array('type' => 'datetimepicker', 'label' => 'Publish Date', 'default' => date('Y-m-d h:i:s'))); ?>
+			<?php echo $this->Form->input('BlogPost.published', array('type' => 'datetimepicker', 'label' => 'Publish Date', 'default' => date('Y-m-d H:i:s'))); ?>
 		</fieldset>
+		<fieldset>
+	        <legend class="toggleClick"><?php echo __('SEO Optimization');?></legend>
+			<?php echo $this->Form->input('Alias.title', array('type' => 'text')); ?>
+			<?php echo $this->Form->input('Alias.keywords', array('type' => 'text')); ?>
+			<?php echo $this->Form->input('Alias.description', array('type' => 'textarea')); ?>
+	    </fieldset>
 	    <?php if (in_array('Categories', CakePlugin::loaded())) : ?>	
 		<fieldset>
 	        <legend class="toggleClick"><?php echo __('Categories');?></legend>

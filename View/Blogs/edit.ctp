@@ -3,7 +3,12 @@
 	echo $this->Form->create('Blog');
 	echo $this->Form->input('Blog.id');
 	echo $this->Form->input('Blog.title');
-	echo $this->Form->end('Edit');
+	echo $this->Form->input('Alias.id');
+	echo $this->Form->input('Alias.name', array('label' => 'Permanent Url'));
+	echo $this->Form->input('Alias.title', array('label' => 'SEO Title'));
+	echo $this->Form->input('Alias.keywords', array('label' => 'SEO Keywords'));
+	echo $this->Form->input('Alias.description', array('label' => 'SEO Description'));
+	echo $this->Form->end('Save');
 	?>
 </div>
 <?php

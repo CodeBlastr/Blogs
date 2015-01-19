@@ -28,13 +28,14 @@
 						<small class="muted"><?php echo $this->Text->truncate(strip_tags($post['text']), 25); ?></small>
 					</td>
 					<td class="text-center">
-						<span class="label <?php echo $post['published'] < date('Y-m-d') ? 'label-success' : 'label-warning'; ?>"><?php echo ZuhaInflector::datify($post['published']); ?></span>
+						<span class="label <?php echo $post['published'] < date('Y-m-d H:i:s') ? 'label-success' : 'label-warning'; ?>"><?php echo ZuhaInflector::datify($post['published']); ?></span>
 					</td>
 					<td class="text-center">
 						<?php echo !empty($post['Alias']['name']) ? $this->Html->link(__('<span class="label label-primary">%s</span>', $this->Text->truncate($post['Alias']['name'], 20)), '/' . $post['Alias']['name'], array('escape' => false)) : null; ?>
 					</td>
 					<td class="text-center">
 						<?php echo $this->Html->link('<span class="label label-default">Edit</span>', array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'edit', $post['id']), array('escape' => false)); ?>
+						<?php echo $this->Html->link('<span class="label label-danger">Delete</span>', array('plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'delete', $post['id']), array('escape' => false), 'Are you sure?'); ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -52,11 +53,27 @@ $this->set('context_crumbs', array('crumbs' => array(
 	!empty($blogId) ? $blogs[0]['Blog']['title'] . ' Dashboard' : null,
 )));
 
+// set contextual search options
+$this->set('forms_search', array(
+    'url' => '/admin/blogs/blog_posts/search',
+	'inputs' => array(
+		array(
+			'name' => 'contains:title',
+			'options' => array(
+				'label' => false, 
+				'placeholder' => 'Search Posts',
+				'value' => !empty($this->request->params['named']['contains']) ? substr($this->request->params['named']['contains'], strpos($this->request->params['named']['contains'], ':') + 1) : null,
+				)
+			)
+		)
+	));
+
 // set the contextual menu items
 $this->set('context_menu', array('menus' => array(
 	array('heading' => 'Blogs',
 		'items' => array(
-			 $this->Html->link(__('Add', true), array('controller' => 'blogs', 'action' => 'add'), array('class' => 'add')),
-			 )
+			$this->Html->link(__('Add'), array('controller' => 'blogs', 'action' => 'add')),
+			!empty($blogId) ? $this->Html->link(__('Edit'), array('controller' => 'blogs', 'action' => 'edit', $blogId)) : null,
+			)
 		)
 	)));

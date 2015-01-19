@@ -12,22 +12,18 @@
 	<?php echo $this->Form->submit('Edit');?>
 	</div>
 	<div class="col-md-4">
-		<?php /* galleries are deprecated, use media <fieldset>
-			<?php echo $this->Element('forms/alias', array('inputOptions' => array('form' => 'BlogPostEditForm'), 'formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/', 'dataDisplay' => '[for=BlogPostTitle]')); // must have the alias behavior attached to work  ?>
-		
-		    <?php echo $this->element('Galleries.thumb', array('form' => 'GalleryEditForm', 'resize' => false, 'model' => 'BlogPost', 'foreignKey' => $this->request->data['BlogPost']['id'])); ?>
-					
-			<?php echo $this->Form->input('GalleryImage.is_thumb', array('form' => 'GalleryEditForm', 'type' => 'hidden', 'value' => 1)); ?>
-			<?php echo $this->Form->input('GalleryImage.filename', array('form' => 'GalleryEditForm', 'label' => 'Choose image', 'type' => 'file')); ?>
-			<?php echo $this->Form->input('Gallery.model', array('form' => 'GalleryEditForm', 'type' => 'hidden', 'value' => 'BlogPost')); ?>
-			<?php echo $this->Form->input('Gallery.foreign_key', array('form' => 'GalleryEditForm', 'type' => 'hidden', 'value' => $this->request->data['BlogPost']['id'])); ?>
-			<?php echo $this->Form->submit('Change Featured Image', array('form' => 'GalleryEditForm'));?>
-		</fieldset> */  ?>
 		<fieldset>
 			<legend class="toggleClick"><?php echo __('Publish Settings'); ?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
 			<?php echo $this->Form->input('BlogPost.published', array('type' => 'datetimepicker', 'label' => 'Publish Date')); ?>
+			<?php echo $this->Form->input('BlogPost.allow_comments'); ?>
 		</fieldset>
+		<fieldset>
+	        <legend class="toggleClick"><?php echo __('SEO Optimization');?></legend>
+			<?php echo $this->Form->input('Alias.title', array('type' => 'text')); ?>
+			<?php echo $this->Form->input('Alias.keywords', array('type' => 'text')); ?>
+			<?php echo $this->Form->input('Alias.description', array('type' => 'textarea')); ?>
+	    </fieldset>
 	    <?php if (in_array('Categories', CakePlugin::loaded())) : ?>	
 		<fieldset>
 	        <legend class="toggleClick"><?php echo __('Categories');?></legend>
@@ -54,6 +50,7 @@
 $this->set('context_menu', array('menus' => array(array(
 	'heading' => 'Blog Posts',
 	'items' => array(
+		$this->Html->link(__('View'), array('admin' => false, 'plugin' => 'blogs', 'controller' => 'blog_posts', 'action' => 'view', $this->request->data['BlogPost']['id'])),
 		$this->Html->link(__('List'), array('controller' => 'blogs', 'action' => 'index')),
 		$this->Html->link(__('Add'), array('controller' => 'blog_posts', 'action' => 'add', $this->request->data['BlogPost']['blog_id'])),
 		$this->Html->link(__('Delete'), array('controller' => 'blog_posts', 'action' => 'delete', $this->Form->value('BlogPost.id')), null, __('Are you sure you want to delete %s?', $this->Form->value('BlogPost.title')))

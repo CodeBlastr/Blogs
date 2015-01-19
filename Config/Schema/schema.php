@@ -27,7 +27,7 @@ class BlogsSchema extends CakeSchema {
 		'status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'tags' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'allow_comments' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
-		'comments' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10, 'comment' => 'counter cache'),
+		'comments' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'comment' => 'counter cache'),
 		'author_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'creator_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'modifier_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
