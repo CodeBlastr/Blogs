@@ -3,7 +3,7 @@
  * Class BlogsController
  * @property Blog Blog
  */
-class BlogsController extends BlogsAppController {
+class AppBlogsController extends BlogsAppController {
 	
 	public $uses = 'Blogs.Blog';
 	public $components = array('RequestHandler');
@@ -185,4 +185,12 @@ class BlogsController extends BlogsAppController {
 			$this->render(false);
 		}
 	}
+}
+
+if (!isset($refuseInit)) {
+
+	class BlogsController extends AppBlogsController {
+
+	}
+
 }
