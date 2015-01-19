@@ -3,16 +3,17 @@
  * Class BlogsController
  * @property Blog Blog
  */
-class BlogsController extends BlogsAppController {
-	
+class AppBlogsController extends BlogsAppController {
+
 	public $uses = 'Blogs.Blog';
 	public $components = array('RequestHandler');
 	public $helpers = array('Text');
-	
+
 /**
- * view method
- * 
  * @todo make this rss function available to all views and indexes automatically by just using the .rss or .xml extension
+ *
+ * @param char $id
+ * @return array
  */
 	public function view($id = null) {
 		if ($this->RequestHandler->isRss() ) {
@@ -41,7 +42,7 @@ class BlogsController extends BlogsAppController {
 				'Blog.id' => $id,
 			)
 		));
-		
+
 		$this->set('page_title_for_layout', $blog['Blog']['title']);
 		$this->set(compact('blog'));
 
@@ -53,16 +54,16 @@ class BlogsController extends BlogsAppController {
 			$this->paginate['order']['BlogPost.published'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
 			$this->paginate['contain'][] = 'Alias';
+			$this->paginate['contain'][] = 'Tag';
 			$this->set('blogPosts', $this->paginate('BlogPost'));
 		} else {
 			$this->Session->setFlash('Unable to find blog');
 			$this->render(false);
 		}
 	}
-	
+
 /**
- * Index method
- * 
+ *
  */
 	public function index() {
 		$this->paginate['contain'][] = 'Owner';
@@ -74,7 +75,7 @@ class BlogsController extends BlogsAppController {
 	}
 
 /**
- * Dashboard method
+ * @param char $blogId
  */
  	public function dashboard($blogId = null) {
 		$this->paginate['contain'][] = 'Owner';
@@ -93,7 +94,7 @@ class BlogsController extends BlogsAppController {
  	}
 
 /**
- * Categories method
+ *
  */
 	public function categories() {
 		$this->Blog->recursive = 0;
@@ -102,13 +103,13 @@ class BlogsController extends BlogsAppController {
 			$categoriesParam = explode(';', rawurldecode($this->request->query['categories']));
 			$this->set('selected_categories', json_encode($categoriesParam));
 			$joins = array(
-		           array('table'=>'categorized', 
+		           array('table'=>'categorized',
 		                 'alias' => 'Categorized',
 		                 'type'=>'left',
 		                 'conditions'=> array(
 		                 	'Categorized.foreign_key = BlogPost.id'
 		           )),
-		           array('table'=>'categories', 
+		           array('table'=>'categories',
 		                 'alias' => 'Category',
 		                 'type'=>'left',
 		                 'conditions'=> array(
@@ -123,9 +124,7 @@ class BlogsController extends BlogsAppController {
 	}
 
 /**
- * add method
- * 
- * @return void
+ *
  */
 	public function add() {
 		if (!empty($this->request->data)) {
@@ -134,11 +133,10 @@ class BlogsController extends BlogsAppController {
 			}
 		}
 	}
-	
+
 /**
- * edit method
- * 
- * @todo make this rss function available to all views and indexes automatically by just using the .rss or .xml extension
+ * @param char $id
+ * @throws NotFoundException
  */
 	public function edit($id = null) {
 		$this->Blog->id = $id;
@@ -148,7 +146,7 @@ class BlogsController extends BlogsAppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Blog->save($this->request->data)) {
 				$this->Session->setFlash('Blog updated');
-            	$this->redirect(array('action' => 'view', $this->request->data['Blog']['id']));	
+            	$this->redirect(array('action' => 'view', $this->request->data['Blog']['id']));
 			}
 		}
 		$this->request->data = $this->Blog->find('first',array(
@@ -157,19 +155,16 @@ class BlogsController extends BlogsAppController {
 			)
 		));
 	}
-	
+
 /**
- * delete method
- * 
+ * @param char $id
  */
 	public function delete($id = null) {
 		$this->__delete('Blog', $id);
 	}
 
 /**
- * my method
- * 
- * @return void
+ *
  */
 	public function my() {
 		$blog = $this->Blog->find('first',array(
@@ -177,12 +172,16 @@ class BlogsController extends BlogsAppController {
 				'Blog.owner_id' => $this->Session->read('Auth.User.id')
 			)
 		));
-		if(isset($blog['Blog'])) {
+		if (isset($blog['Blog'])) {
 			$this->redirect(array('action' => 'view', $blog['Blog']['id']));
-		}
-		else {
+		} else {
 			$this->Session->setFlash('You do not have a blog.');
 			$this->render(false);
 		}
+	}
+}
+
+if (!isset($refuseInit)) {
+	class BlogsController extends AppBlogsController {
 	}
 }
