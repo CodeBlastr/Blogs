@@ -1,9 +1,6 @@
 <div class="row blogs blog-posts add">
 	<div class="form col-md-8">
 	<?php echo $this->Form->create('BlogPost'); ?>
-			
-			
-			
     <?php echo $this->Form->input('BlogPost.id'); ?>
 	<?php echo $this->Form->hidden('BlogPost.blog_id'); ?>
 	<?php echo $this->Form->input('BlogPost.title', array('label' => __('Post Title', true))); ?>
@@ -24,7 +21,7 @@
 			<?php echo $this->Form->input('Alias.keywords', array('type' => 'text')); ?>
 			<?php echo $this->Form->input('Alias.description', array('type' => 'textarea')); ?>
 	    </fieldset>
-	    <?php if (in_array('Categories', CakePlugin::loaded())) : ?>	
+	    <?php if (CakePlugin::loaded('Categories')) : ?>	
 		<fieldset>
 	        <legend class="toggleClick"><?php echo __('Categories');?></legend>
 	        <?php foreach ($categories as $categoryId => $categoryName) : ?>
@@ -33,7 +30,7 @@
 			<?php endforeach; ?>
 	    </fieldset>
 	    <?php endif; ?>
-	    <?php if (in_array('Tags', CakePlugin::loaded())) : ?>
+	    <?php if (CakePlugin::loaded('Tags')) : ?>
 		<fieldset>
 	 		<legend class="toggleClick"><?php echo __('Tags');?></legend>
 				<?php echo $this->Form->input('tags', array('label' => 'Enter comma separated tags ('.$this->Html->link('view tags', array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')).' ).')); ?>
