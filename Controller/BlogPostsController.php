@@ -182,6 +182,7 @@ class AppBlogPostsController extends BlogsAppController {
 			$contain[] = 'Category';
 		}
 		if (CakePlugin::loaded('Tags')) {
+			$contain[] = 'Tag';
 			$tags = $this->BlogPost->Tag->Tagged->find('cloud', array('conditions' => array('Tagged.foreign_key' => $id)));
 			$this->request->data['BlogPost']['tags'] = implode(', ', Set::extract('/Tag/name', $tags));
 		}
