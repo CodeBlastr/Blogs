@@ -213,6 +213,7 @@ class AppBlogPostsController extends BlogsAppController {
 					'BlogPost.published <' => date('Y-m-d h:i:s'),
 					'BlogPost.status' => 'published'
 				),
+				'contain' => array('Author'),
 				'order' => 'published DESC',
 				'limit' => $this->request->params['named']['limit']
 			);

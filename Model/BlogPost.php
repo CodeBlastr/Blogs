@@ -1,6 +1,9 @@
 <?php
-
 App::uses('BlogsAppModel', 'Blogs.Model');
+/**
+ * Extension Code
+ * $refuseInit = true; require_once(ROOT.DS.'app'.DS.'Plugin'.DS.'Blogs'.DS.'Model'.DS.'BlogPost.php');
+ */
 
 /**
  * @property Blog Blog
@@ -8,7 +11,7 @@ App::uses('BlogsAppModel', 'Blogs.Model');
  * @property Category Category
  * @property Tag Tag
  */
-class BlogPost extends BlogsAppModel {
+class AppBlogPost extends BlogsAppModel {
 
 	public $name = "BlogPost";
 
@@ -160,4 +163,8 @@ class BlogPost extends BlogsAppModel {
 		return array_values($sitemap);
 	}
 
+}
+
+if (!isset($refuseInit)) {
+	class BlogPost extends AppBlogPost {}
 }
