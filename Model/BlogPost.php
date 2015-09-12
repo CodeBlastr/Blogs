@@ -49,6 +49,9 @@ class AppBlogPost extends BlogsAppModel {
 		if (CakePlugin::loaded('Tags')) {
 			$this->actsAs['Tags.Taggable'] = array('automaticTagging' => true, 'taggedCounter' => true);
 		}
+		if (CakePlugin::loaded('FileStorage')) {
+			$this->actsAs[] = 'FileStorage.FileAttach';
+		}
 		if (CakePlugin::loaded('Categories')) {
 			$this->actsAs[] = 'Categories.Categorizable';
 			$this->hasAndBelongsToMany['Category'] = array(
@@ -82,7 +85,7 @@ class AppBlogPost extends BlogsAppModel {
  */
 	public function beforeSave($options = array()) {
 		if (!isset($this->data['BlogPost']['published']) || empty($this->data['BlogPost']['published'])) {
-			$this->data['BlogPost']['published'] = date('Y-m-d h:i:s');
+			$this->data['BlogPost']['published'] = date('Y-m-d H:i:s');
 		}
 		return parent::beforeSave($options);
 	}
