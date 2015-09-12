@@ -77,10 +77,10 @@ class AppBlogPostsController extends BlogsAppController {
 		);
 
 		$this->paginate = array('Comment' => array(
-				'order' => array('Comment.created' => 'desc'),
-				'recursive' => 0,
-				'limit' => 5,
-				'conditions' => array('model' => 'Blogs.BlogPost')
+			'order' => array('Comment.created' => 'desc'),
+			'recursive' => 0,
+			'limit' => 5,
+			'conditions' => array('model' => 'Blogs.BlogPost')
 		));
 
 		$this->set('categories', $blogPost['Category']);
