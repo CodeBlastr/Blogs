@@ -9,18 +9,19 @@
 	<?php echo $this->Form->submit('Edit');?>
 	</div>
 	<div class="col-md-4">
-		<fieldset>
-			<legend class="toggleClick"><?php echo __('Publish Settings'); ?></legend>
-			<?php echo $this->Form->input('BlogPost.status'); ?>
-			<?php echo $this->Form->input('BlogPost.published', array('type' => 'datetimepicker', 'label' => 'Publish Date')); ?>
-			<?php echo $this->Form->input('BlogPost.allow_comments'); ?>
-		</fieldset>
+		<?php echo $this->element('forms/alias', array('formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/', 'dataDisplay' => '[for=BlogPostTitle]')); // must have the alias behavior attached to work  ?>
 		<fieldset>
 	        <legend class="toggleClick"><?php echo __('SEO Optimization');?></legend>
 			<?php echo $this->Form->input('Alias.title', array('type' => 'text')); ?>
 			<?php echo $this->Form->input('Alias.keywords', array('type' => 'text')); ?>
 			<?php echo $this->Form->input('Alias.description', array('type' => 'textarea')); ?>
 	    </fieldset>
+		<fieldset>
+			<legend class="toggleClick"><?php echo __('Publish Settings'); ?></legend>
+			<?php echo $this->Form->input('BlogPost.status'); ?>
+			<?php echo $this->Form->input('BlogPost.published', array('type' => 'datetimepicker', 'label' => 'Publish Date')); ?>
+			<?php echo $this->Form->input('BlogPost.allow_comments'); ?>
+		</fieldset>
 	    <?php if (CakePlugin::loaded('Categories')) : ?>	
 		<fieldset>
 	        <legend class="toggleClick"><?php echo __('Categories');?></legend>
@@ -44,6 +45,15 @@
 	<?php echo $this->Form->end();?>
 </div>
 <?php
+// set the contextual breadcrumb items
+$this->set('context_crumbs', array('crumbs' => array(
+	$this->Html->link(__('Admin Dashboard'), '/admin'),
+	$this->Html->link(__('Blogs Dashboard'), '/admin/blogs/blogs/dashboard/' . $this->request->data['BlogPost']['blog_id']),
+	$this->Html->link(__('%s Dashboard', $this->request->data['Blog']['title']), '/admin/blogs/blogs/dashboard/' . $this->request->data['BlogPost']['blog_id']),
+	$page_title_for_layout,
+)));
+    
+// set the contextual menu items
 $this->set('context_menu', array('menus' => array(array(
 	'heading' => 'Blog Posts',
 	'items' => array(

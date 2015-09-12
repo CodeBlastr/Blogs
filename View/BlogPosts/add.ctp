@@ -2,13 +2,13 @@
 	<?php echo $this->Form->create('BlogPost', array('type' => 'file', 'novalidate'));?>
 	<div id="blogPosts-add" class="blogPosts col-md-8 add form">
 	    <?php echo $this->Form->hidden('BlogPost.blog_id', array('value' => $blogId)); ?>
-		<?php echo $this->Form->input('BlogPost.title', array('label' => __('Post Title', true))); ?>
+		<?php echo $this->Form->input('BlogPost.title', array('label' => __('Post Title'))); ?>
 		<?php echo $this->Form->input('BlogPost.text', array('label' => '', 'type' => 'richtext')); ?>
 		<?php echo $this->Form->submit('Add');?>
 	</div>
 	<div class="col-md-4">
 		<?php echo $this->Element('forms/alias', array('formId' => '#BlogPostAddForm', 'nameInput' => '#BlogPostTitle', 'prefix' => 'blog/', 'dataDisplay' => '[for=BlogPostTitle]')); // must have the alias behavior attached to work  ?>
-		<?php echo $this->Form->input('GalleryImage.filename', array('type' => 'file', 'label' => 'Featured Image')); ?>
+		<?php echo $this->Form->input('Attachment.filename', array('type' => 'file', 'label' => 'Featured Image')); ?>
 		<fieldset>
 			<legend class="toggleClick"><?php echo __('Publish Settings'); ?></legend>
 			<?php echo $this->Form->input('BlogPost.status'); ?>
@@ -44,12 +44,21 @@
 	<?php echo $this->Form->end();?>
 </div>
 
+
 <?php
+// set the contextual breadcrumb items
+$this->set('context_crumbs', array('crumbs' => array(
+	$this->Html->link(__('Admin Dashboard'), '/admin'),
+	$this->Html->link(__('Blogs Dashboard'), '/admin/blogs/blogs/dashboard'),
+	$page_title_for_layout,
+)));
+    
+// set the contextual menu items
 $this->set('context_menu', array('menus' => array(
 	array(
 		'heading' => 'Blog Posts',
 		'items' => array(
-			 $this->Html->link(__('List', true), array('controller' => 'blogs', 'action' => 'view', $blogId)),
+			 $this->Html->link(__('List'), array('controller' => 'blogs', 'action' => 'view', $blogId)),
 			 )
 		)
 	)));

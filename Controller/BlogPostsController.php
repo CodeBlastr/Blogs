@@ -176,6 +176,7 @@ class AppBlogPostsController extends BlogsAppController {
 		}
 
 		$contain[] = 'Author';
+		$contain[] = 'Blog';
 		if (CakePlugin::loaded('Categories')) {
 			$categories = $this->BlogPost->Category->generateTreeList(array('Category.model' => 'BlogPost'));
 			$this->set(compact('categories'));

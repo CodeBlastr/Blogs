@@ -153,8 +153,8 @@ class AppBlogsController extends BlogsAppController {
 		$this->request->data = $this->Blog->find('first', array(
 			'conditions' => array(
 				'Blog.id' => $id,
-			)
-		));
+				)
+			));
 	}
 
 /**
