@@ -55,7 +55,7 @@ class AppBlogsController extends BlogsAppController {
 			$this->paginate['order']['BlogPost.published'] = 'DESC';
 			$this->paginate['contain'][] = 'Author';
 			$this->paginate['contain'][] = 'Alias';
-			$this->paginate['contain'][] = 'Tag';
+			CakePlugin::loaded('Tags') ? $this->paginate['contain'][] = 'Tag' : null;
 			$this->set('blogPosts', $this->paginate('BlogPost'));
 		} else {
 			$this->Session->setFlash('Unable to find blog');

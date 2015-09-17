@@ -15,16 +15,20 @@ class AppBlogPostsController extends BlogsAppController {
  *
  */
 	public $uses = array('Blogs.BlogPost');
+	
+/**
+ * Alias Format
+ * 
+ * @options %title%
+ */
+ 	// public $aliasFormat = 'blog/%title%';
 
 /**
  * Constructor
  *
  */
-	public function __construct($request = null, $response = null) {
+	public function __construct($request = null, $response = null) {		
 		parent::__construct($request, $response);
-		if (CakePlugin::loaded('Recaptcha')) {
-			$this->components[] = 'Recaptcha.Recaptcha';
-		}
 		if (CakePlugin::loaded('Comments')) {
 			$this->components['Comments.Comments'] = array('userModelClass' => 'User');
 		}
@@ -34,12 +38,26 @@ class AppBlogPostsController extends BlogsAppController {
 	}
 
 /**
+ * parse alias format
+ * 
+ * REALIZED THIS WON'T WORK, because I want the date to be date('F', strtotime('+ 1 month')).  How do you put that into something like %month%
+ */
+ 	// protected function _aliasFormat($string = null) {
+ 		// if ($string === null) {
+ 			// return str_replace('%title%', '', $this->aliasFormat);
+ 		// }
+		// __BLOGS_PREFIX 
+		// 'companies/' . date('Y') . '/' . strtolower(date('F', strtotime('+ 1 month'))) . '/'
+ 	// }
+
+/**
  * Before Filter
  *
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->passedArgs['comment_view_type'] = 'threaded';
+		// $this->set('prefix', $this->aliasFormat());
 	}
 
 /**
@@ -85,7 +103,7 @@ class AppBlogPostsController extends BlogsAppController {
 
 		$this->set('categories', $blogPost['Category']);
 		$this->set('blogPost', $blogPost);
-		$this->set('title_for_layout', __('%s | %s', $blogPost['BlogPost']['title'], __SYSTEM_SITE_NAME));
+		$this->set('title_for_layout', __('%s', $blogPost['BlogPost']['title']));
 		$this->set('page_title_for_layout', $blogPost['BlogPost']['title']);
 		$this->set('description_for_layout', substr(strip_tags($blogPost['BlogPost']['text']), 0, 158));
 	}
@@ -165,7 +183,7 @@ class AppBlogPostsController extends BlogsAppController {
 			throw new NotFoundException(__('Invalid post.'));
 		}
 
-		if (!empty($this->request->data)) {
+		if ($this->request->is('put')) {
 			try {
 				$this->BlogPost->save($this->request->data);
 				$this->Session->setFlash('Blog Post Saved');
@@ -199,8 +217,9 @@ class AppBlogPostsController extends BlogsAppController {
 		$this->set('selectedCategories', Set::extract('/id', $this->request->data['Category']));
 		$authors = $this->BlogPost->Author->find('list');
 		$statuses = $this->BlogPost->statusTypes();
-		$page_title_for_layout = __('Edit %s', $blogPost['BlogPost']['title']);
-		$this->set(compact('authors', 'statuses', 'page_title_for_layout'));
+		$title_for_layout = __('Edit %s Post', $blogPost['BlogPost']['title']);
+		$page_title_for_layout = __('Edit %s Post', $blogPost['BlogPost']['title']);
+		$this->set(compact('authors', 'statuses', 'title_for_layout', 'page_title_for_layout'));
 	}
 
 /**
