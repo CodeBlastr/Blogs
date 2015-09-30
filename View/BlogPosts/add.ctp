@@ -1,7 +1,7 @@
 <div class="row blogs blog-posts add">
 	<?php echo $this->Form->create('BlogPost', array('type' => 'file')); ?>
 		<div class="form col-md-8">
-			<?php echo $this->Form->hidden('BlogPost.blog_id'); ?>
+			<?php echo $this->Form->hidden('BlogPost.blog_id', array('value' => $blogId)); ?>
 			<?php echo $this->Form->input('BlogPost.title', array('label' => __('Post Title'))); ?>
 			<?php echo $this->Form->input('BlogPost.text', array('label' => '', 'type' => 'richtext')); ?>
 			<?php echo $this->Form->submit('Add Blog Post');?>
