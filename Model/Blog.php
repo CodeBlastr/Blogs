@@ -2,7 +2,7 @@
 
 App::uses('BlogsAppModel', 'Blogs.Model');
 
-class Blog extends BlogsAppModel {
+class AppBlog extends BlogsAppModel {
 
 	public $name = "Blog";
 	
@@ -36,4 +36,8 @@ class Blog extends BlogsAppModel {
 		return isset($result['Blog']['id']) ? $result['Blog']['id'] : '';
 	}
 
+}
+
+if (!isset($refuseInit)) {
+	class Blog extends AppBlog {}
 }
